@@ -224,12 +224,15 @@
         {%- assign skip_product = true -%}
       {%- endif -%}
 
-      {%- for tag in product.tags -%}
-        {%- assign tag_lc = tag | downcase -%}
-        {%- if tag_lc contains 'rental' or tag_lc contains 'accessory' or tag_lc contains 'accessories' or tag_lc contains 'charger' or tag_lc contains 'adapter' or tag_lc contains 'cable' or tag_lc contains 'warranty' or tag_lc contains 'addon' or tag_lc contains 'add-on' or tag_lc contains 'gift card' or tag_lc contains 'giftcard' or tag_lc contains 'dock' or tag_lc contains 'hub' -%}
-          {%- assign skip_product = true -%}
-        {%- endif -%}
-      {%- endfor -%}
+      {%- unless skip_product -%}
+        {%- for tag in product.tags -%}
+          {%- assign tag_lc = tag | downcase -%}
+          {%- if tag_lc contains 'rental' or tag_lc contains 'accessory' or tag_lc contains 'accessories' or tag_lc contains 'charger' or tag_lc contains 'adapter' or tag_lc contains 'cable' or tag_lc contains 'warranty' or tag_lc contains 'addon' or tag_lc contains 'add-on' or tag_lc contains 'gift card' or tag_lc contains 'giftcard' or tag_lc contains 'dock' or tag_lc contains 'hub' -%}
+            {%- assign skip_product = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endunless -%}
 
       {%- unless skip_product -%}
         {%- if first_rendered == false -%},{%- endif -%}
@@ -251,32 +254,33 @@
           if la_storage == blank
             assign la_storage = product.metafields.comparison.storage | metafield_text
           endif
+
+          assign la_warranty = product.metafields.custom.warranty | metafield_text
+          if la_warranty == blank
+            assign la_warranty = product.metafields.shopify.warranty | metafield_text
+          endif
+          if la_warranty == blank
+            assign la_warranty = '6 Months'
+          endif
         -%}
         {
           "id": {{ product.id | json }},
           "title": {{ product.title | json }},
           "vendor": {{ product.vendor | json }},
-          "type": {{ product.type | json }},
-          "handle": {{ product.handle | json }},
           "url": {{ product.url | json }},
           "featured_image": {{ product.featured_media | image_url: width: 400 | json }},
           "price": {{ product.price | json }},
-          "compare_at_price": {{ product.compare_at_price | json }},
           "available": {{ product.available | json }},
           "tags": {{ product.tags | json }},
-          "options": {{ product.options | json }},
           "variants": [
             {%- for variant in product.variants -%}
               {%- unless forloop.first -%},{%- endunless -%}
               {
                 "id": {{ variant.id | json }},
-                "title": {{ variant.title | json }},
                 "price": {{ variant.price | json }},
-                "compare_at_price": {{ variant.compare_at_price | json }},
                 "available": {{ variant.available | json }},
                 "option1": {{ variant.option1 | json }},
-                "option2": {{ variant.option2 | json }},
-                "option3": {{ variant.option3 | json }}
+                "option2": {{ variant.option2 | json }}
               }
             {%- endfor -%}
           ],
@@ -287,12 +291,7 @@
             "graphics": {{ la_graphics | json }},
             "ram": {{ la_ram | json }},
             "storage": {{ la_storage | json }},
-            "os": {{ product.metafields.custom.specs_os | metafield_text | json }},
-            "features": {{ product.metafields.custom.specs_features | metafield_text | json }},
-            "condition": {{ product.metafields.custom.condition_grade | metafield_text | default: product.metafields.custom.cosmetic_condition | metafield_text | default: product.metafields.shopify['cosmetic_condition'] | metafield_text | json }},
-            "battery": {{ product.metafields.custom.battery_health | metafield_text | json }},
-            "warranty": {{ product.metafields.custom.warranty | metafield_text | default: product.metafields.shopify.warranty | metafield_text | default: "6 Months" | json }},
-            "weight": {{ product.metafields.custom.weight | metafield_text | default: product.metafields.shopify.weight | metafield_text | default: "1.5 kg" | json }}
+            "warranty": {{ la_warranty | json }}
           }
         }
       {%- endunless -%}
