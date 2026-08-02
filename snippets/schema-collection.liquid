@@ -1,0 +1,52 @@
+{%- comment -%}
+  Emits CollectionPage + ItemList JSON-LD structured data.
+  Self-gated: renders only when request.page_type == 'collection'.
+  Safe to render globally from layout.
+  ItemList uses the first N products of the current collection
+  (limited to avoid oversized JSON on very large collections).
+{%- endcomment -%}
+
+{%- if request.page_type == 'collection' and collection != blank -%}
+  {%- assign _origin = request.origin -%}
+  {%- assign _col_desc = collection.description | strip_html | strip | truncate: 300, '' -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ collection.title | json }},
+  "url": {{ _origin | append: collection.url | json }}
+  {%- if _col_desc != blank -%}
+  ,"description": {{ _col_desc | json }}
+  {%- endif -%}
+  {%- if collection.image != blank -%}
+  ,"image": {{ collection.image | image_url: width: 1200 | prepend: 'https:' | json }}
+  {%- endif -%}
+}
+</script>
+
+  {%- assign _item_count = 0 -%}
+  {%- for _product in collection.products limit: 60 -%}
+    {%- assign _item_count = _item_count | plus: 1 -%}
+  {%- endfor -%}
+
+  {%- if _item_count > 0 -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {%- for _product in collection.products limit: 60 -%}
+      {%- unless forloop.first -%},{%- endunless -%}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.index }},
+        "url": {{ _origin | append: _product.url | json }},
+        "name": {{ _product.title | json }}
+      }
+    {%- endfor -%}
+  ]
+}
+</script>
+  {%- endif -%}
+{%- endif -%}
