@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
 {{ 'quick-add.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -1591,21 +1592,6 @@
         {% endif %}
     </div>
 </div>
-
-<script>
-  (function () {
-    if (window.__rentopcSwiperLoaded || window.__rentopcSwiperLoading) return;
-    window.__rentopcSwiperLoading = true;
-
-    var script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/swiper@6.8.4/swiper-bundle.min.js';
-    script.defer = true;
-    script.onload = function () {
-      window.__rentopcSwiperLoaded = true;
-    };
-    document.head.appendChild(script);
-  })();
-</script>
 
 <script src="{{ 'collection-carousel.js' | asset_url }}" defer="defer"></script>
 
