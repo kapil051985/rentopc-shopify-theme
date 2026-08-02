@@ -294,17 +294,21 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'custom-responsive.css' | asset_url | stylesheet_tag: preload: true }}
-    {{ 'request-a-quote.css' | asset_url | stylesheet_tag: preload: true }}
+    <link rel="stylesheet" href="{{ 'request-a-quote.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ 'request-a-quote.css' | asset_url }}"></noscript>
 	    {%- if request.page_type == 'cart' or settings.cart_type == 'drawer' -%}
 	      <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 	    {%- endif -%}
 
     {%- if settings.cart_type == 'drawer' -%}
-      {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag: preload: true }}
+      <link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript><link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}"></noscript>
       {{ 'component-cart.css' | asset_url | stylesheet_tag: preload: true }}
-      {{ 'component-totals.css' | asset_url | stylesheet_tag: preload: true }}
+      <link rel="stylesheet" href="{{ 'component-totals.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript><link rel="stylesheet" href="{{ 'component-totals.css' | asset_url }}"></noscript>
       {{ 'component-price.css' | asset_url | stylesheet_tag: preload: true }}
-      {{ 'component-discounts.css' | asset_url | stylesheet_tag: preload: true }}
+      <link rel="stylesheet" href="{{ 'component-discounts.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript><link rel="stylesheet" href="{{ 'component-discounts.css' | asset_url }}"></noscript>
     {%- endif -%}
 
     {%- unless settings.type_body_font.system? -%}
