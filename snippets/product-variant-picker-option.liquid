@@ -1,0 +1,103 @@
+{% comment %}
+  Renders one product option within the variant picker.
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} product_option object.
+  - block: {Object} block object.
+  - product_form_id: {String} Id of the product form to which the variant picker is associated.
+  - section_id: {String} section.id for stable IDs.
+  - option_index: {Number} zero-based index for select IDs/labels.
+
+  Usage:
+  {% render 'product-variant-picker-option', product: product, option: option, block: block, product_form_id: product_form_id, section_id: section.id, option_index: forloop.index0 %}
+{% endcomment %}
+
+{%- liquid
+  assign swatch_count = option.values | map: 'swatch' | compact | size
+  assign picker_type = block.settings.picker_type
+  assign option_name_downcase = option.name | downcase
+  assign is_compact_dropdown = false
+
+  if swatch_count > 0 and block.settings.swatch_shape != 'none'
+    if block.settings.picker_type == 'dropdown'
+      assign picker_type = 'swatch_dropdown'
+    else
+      assign picker_type = 'swatch'
+    endif
+  endif
+
+  # Force dropdowns for space-heavy options like RAM/SSD/HDD.
+  if swatch_count == 0
+    if option_name_downcase contains 'ram' or option_name_downcase contains 'ssd' or option_name_downcase contains 'hdd' or option_name_downcase contains 'storage'
+      assign picker_type = 'dropdown'
+    endif
+  endif
+
+  # Mark compact dropdowns so CSS can place them side-by-side.
+  if swatch_count == 0 and picker_type == 'dropdown'
+    if option_name_downcase contains 'ram' or option_name_downcase contains 'ssd' or option_name_downcase contains 'hdd' or option_name_downcase contains 'storage'
+      assign is_compact_dropdown = true
+    endif
+  endif
+-%}
+
+{%- if picker_type == 'swatch' -%}
+  <fieldset class="js product-form__input product-form__input--swatch">
+    <legend class="form__label">
+      {{ option.name }}:
+      <span data-selected-value>
+        {{- option.selected_value -}}
+      </span>
+    </legend>
+    {% render 'product-variant-options',
+      product: product,
+      option: option,
+      block: block,
+      picker_type: picker_type
+    %}
+  </fieldset>
+{%- elsif picker_type == 'button' -%}
+  <fieldset class="js product-form__input product-form__input--pill">
+    <legend class="form__label">{{ option.name }}</legend>
+    {% render 'product-variant-options',
+      product: product,
+      option: option,
+      block: block,
+      picker_type: picker_type
+    %}
+  </fieldset>
+{%- else -%}
+  <div class="product-form__input product-form__input--dropdown{% if is_compact_dropdown %} is-compact{% endif %}">
+    <label class="form__label" for="Option-{{ section_id }}-{{ option_index }}">
+      {{ option.name }}
+    </label>
+    <div class="select">
+      {%- if picker_type == 'swatch_dropdown' -%}
+        <span
+          data-selected-value
+          class="dropdown-swatch"
+        >
+          {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
+        </span>
+      {%- endif -%}
+      <select
+        id="Option-{{ section_id }}-{{ option_index }}"
+        class="select__select"
+        name="options[{{ option.name | escape }}]"
+        form="{{ product_form_id }}"
+      >
+        {% render 'product-variant-options',
+          product: product,
+          option: option,
+          block: block,
+          picker_type: picker_type
+        %}
+      </select>
+      <span class="svg-wrapper">
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </span>
+    </div>
+  </div>
+{%- endif -%}
+

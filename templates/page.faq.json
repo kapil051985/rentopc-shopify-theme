@@ -1,0 +1,107 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+
+{
+	  "sections": {
+	    "main": {
+	      "type": "main-page",
+	      "settings": {
+	        "padding_top": 36,
+	        "padding_bottom": 36
+	      }
+	    },
+    "faq_gm_8axFap": {
+      "type": "faq-gm",
+      "blocks": {
+        "text_qUJMfi": {
+          "type": "text",
+          "name": "Q1",
+          "settings": {
+            "question": "Does all laptops support Windows 11?",
+	            "answer": "<p>&#10004; Only laptops with 8th generation and above can run Windows 11 if TPM and Secure Boot are enabled. Otherwise, it comes preloaded with Windows 10 Pro.<br/><br/></p>"
+          }
+        },
+        "text_gza8g8": {
+          "type": "text",
+          "name": "Q2",
+          "settings": {
+            "question": "What is the battery backup of laptops?",
+	            "answer": "<p>&#10004; Customers can expect a minimum of 1 hour backup during regular use, with the potential for even longer backup times.</p>"
+          }
+        },
+        "text_jNbPWC": {
+          "type": "text",
+          "name": "Q3",
+          "settings": {
+            "question": "Does it come with warranty?",
+	            "answer": "<p>&#10004; Yes. All refurbished laptops come with a 6-month seller warranty (extendable).</p>"
+          }
+        },
+        "text_twCYfz": {
+          "type": "text",
+          "name": "Q4",
+          "settings": {
+            "question": "What is the return policy?",
+	            "answer": "<p>&#10004; <a href=\"/policies/refund-policy\" target=\"_blank\" title=\"Refund Policy\">You can return the product within 5 days of receipt if defective or not as described.</a></p>"
+          }
+        },
+        "text_CeUJqQ": {
+          "type": "text",
+          "name": "Q5",
+          "settings": {
+            "question": "How long does delivery take?",
+	            "answer": "<p>&#10004; Delivery usually takes 4-5 business days across India. For Delhi-ncr it takes 48 hrs.</p>"
+          }
+        },
+        "text_JyP3np": {
+          "type": "text",
+          "name": "Q6",
+          "settings": {
+            "question": "Do you offer Cash on Delivery (COD)",
+	            "answer": "<p>&#10004; Yes, COD is available pan India.</p>"
+          }
+        },
+        "text_NtFgVF": {
+          "type": "text",
+          "name": "Q7",
+          "settings": {
+            "question": "Can I upgrade RAM and storage later?",
+            "answer": "<p>Yes, most laptops we sell support RAM and SSD/HDD upgrades. You can also request us for upgrades before delivery.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_qUJMfi",
+        "text_gza8g8",
+        "text_jNbPWC",
+        "text_twCYfz",
+        "text_CeUJqQ",
+        "text_JyP3np",
+        "text_NtFgVF"
+      ],
+      "name": "Faq",
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "icon_color": "#171515",
+        "hover_color": "#efefef",
+        "question_color": "#121212",
+        "background_color": "#81a4fc",
+        "answer_color": "#000000",
+        "answer_bg_color": "#ffffff",
+        "questions-font-size": 1
+      }
+    }
+  },
+  "order": [
+    "main",
+    "faq_gm_8axFap"
+  ]
+}
+

@@ -1,0 +1,388 @@
+{% liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign processor = product.metafields.custom.processor | metafield_text
+  if processor == blank
+    assign processor = product.metafields.custom.processor_family | metafield_text
+  endif
+  if processor == blank
+    assign processor = product.metafields.custom.tab_processor | metafield_text
+  endif
+  if processor == blank
+    assign processor = product.metafields.shopify['processor_family'] | metafield_text
+  endif
+
+  assign generation = product.metafields.custom.generation | metafield_text
+  if generation == blank
+    assign generation = product.metafields.custom.processor_generation | metafield_text
+  endif
+  if generation == blank
+    assign generation = product.metafields.shopify['processor_generation'] | metafield_text
+  endif
+
+  assign display = product.metafields.custom.display | metafield_text
+  if display == blank
+    assign display = product.metafields.custom.display_resolution | metafield_text
+  endif
+  if display == blank
+    assign display = product.metafields.custom.tab_display_size | metafield_text
+  endif
+  if display == blank
+    assign display = product.metafields.shopify['display_resolution'] | metafield_text
+  endif
+
+  assign graphics = product.metafields.custom.graphics | metafield_text
+  if graphics == blank
+    assign graphics = product.metafields.custom.graphics_card_type | metafield_text
+  endif
+  if graphics == blank
+    assign graphics = product.metafields.custom.tab_graphics_coprocessor | metafield_text
+  endif
+  if graphics == blank
+    assign graphics = product.metafields.custom.tab_graphics | metafield_text
+  endif
+  if graphics == blank
+    assign graphics = product.metafields.shopify['graphics_card_type'] | metafield_text
+  endif
+
+  assign condition_grade = product.metafields.custom.condition_grade | metafield_text
+  if condition_grade == blank
+    assign condition_grade = product.metafields.custom.cosmetic_condition | metafield_text
+  endif
+  if condition_grade == blank
+    assign condition_grade = product.metafields.shopify['cosmetic_condition'] | metafield_text
+  endif
+
+  assign battery_health = product.metafields.custom.battery_health | metafield_text
+  assign condition_notes = product.metafields.custom.condition_notes | metafield_text
+%}
+
+<section class="product-specs section-{{ section.id }}-padding" id="ProductSpecs-{{ section.id }}" data-section-id="{{ section.id }}">
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    #ProductSpecs-{{ section.id }} {
+      --spec-bg: #f5f6f8;
+      --spec-surface: #ffffff;
+      --spec-border: #e4e6eb;
+      --spec-label: #6b7280;
+      --spec-text: #1c1f24;
+      --spec-accent-bg: #ecf4ff;
+      --spec-accent-border: #c9ddff;
+      --spec-accent-text: #184e9e;
+      color: var(--spec-text);
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__inner {
+      max-width: 960px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+      border: 1px solid var(--spec-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(17, 24, 39, 0.06);
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__header {
+      padding: 2rem 2rem 1.25rem;
+      background: radial-gradient(circle at 80% -10%, #eaf1ff 0%, rgba(234, 241, 255, 0) 45%), var(--spec-surface);
+      border-bottom: 1px solid var(--spec-border);
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__eyebrow {
+      margin: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--spec-label);
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__title {
+      margin: 0.55rem 0 0;
+      font-size: clamp(2rem, 2.6vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__table-wrap {
+      padding: 0.75rem 1.25rem 1.5rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #ProductSpecs-{{ section.id }} table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+      background: var(--spec-surface);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    #ProductSpecs-{{ section.id }} th,
+    #ProductSpecs-{{ section.id }} td {
+      border-bottom: 1px solid var(--spec-border);
+      padding: 1.25rem 1rem;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 1.45rem;
+      line-height: 1.45;
+    }
+
+    #ProductSpecs-{{ section.id }} th {
+      width: 38%;
+      color: var(--spec-label);
+      font-weight: 500;
+      background: var(--spec-bg);
+    }
+
+    #ProductSpecs-{{ section.id }} tr:last-child th,
+    #ProductSpecs-{{ section.id }} tr:last-child td {
+      border-bottom: 0;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__value {
+      color: var(--spec-text);
+      font-weight: 500;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__value--dynamic {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--spec-accent-bg);
+      border: 1px solid var(--spec-accent-border);
+      color: var(--spec-accent-text);
+      border-radius: 999px;
+      padding: 0.35rem 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__chip-icon {
+      width: 1.6rem;
+      height: 1.6rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #ffffff;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__condition {
+      margin: 0.5rem 1.25rem 1.25rem;
+      border: 1px solid var(--spec-border);
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 1.25rem;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__condition-title {
+      margin: 0;
+      font-size: 1.7rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__condition-text {
+      margin: 0.75rem 0 0;
+      font-size: 1.4rem;
+      line-height: 1.6;
+      color: #353a42;
+      white-space: pre-line;
+    }
+
+    #ProductSpecs-{{ section.id }} .product-specs__fallback {
+      color: var(--spec-label);
+      font-style: italic;
+    }
+
+    @media screen and (max-width: 749px) {
+      #ProductSpecs-{{ section.id }} .product-specs__header {
+        padding: 1.5rem 1.25rem 1rem;
+      }
+
+      #ProductSpecs-{{ section.id }} .product-specs__table-wrap {
+        padding: 0.5rem 0.9rem 1rem;
+      }
+
+      #ProductSpecs-{{ section.id }} th,
+      #ProductSpecs-{{ section.id }} td {
+        padding: 0.95rem 0.8rem;
+        font-size: 1.35rem;
+      }
+
+      #ProductSpecs-{{ section.id }} th {
+        width: 44%;
+      }
+
+      #ProductSpecs-{{ section.id }} .product-specs__condition {
+        margin: 0.4rem 0.9rem 1rem;
+        padding: 1rem;
+      }
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div class="product-specs__inner">
+    <header class="product-specs__header">
+      <p class="product-specs__eyebrow">Specifications</p>
+      <h2 class="product-specs__title">What you get</h2>
+    </header>
+
+    <div class="product-specs__table-wrap">
+      <table aria-label="Laptop specification table">
+        <tbody>
+          <tr>
+            <th scope="row">RAM</th>
+            <td>
+              <span class="product-specs__value product-specs__value--dynamic" data-spec-ram>
+                <span class="product-specs__chip-icon" aria-hidden="true">R</span>
+                <span>{{ selected_variant.option1 | default: 'Not specified' }}</span>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Storage</th>
+            <td>
+              <span class="product-specs__value product-specs__value--dynamic" data-spec-storage>
+                <span class="product-specs__chip-icon" aria-hidden="true">S</span>
+                <span>{{ selected_variant.option2 | default: 'Not specified' }}</span>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Processor</th>
+            <td class="product-specs__value">{{ processor | default: 'Not specified' }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Generation</th>
+            <td class="product-specs__value">{{ generation | default: 'Not specified' }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Display</th>
+            <td class="product-specs__value">{{ display | default: 'Not specified' }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Graphics</th>
+            <td class="product-specs__value">{{ graphics | default: 'Not specified' }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Condition</th>
+            <td class="product-specs__value">{{ condition_grade | default: 'Not specified' }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Battery Health</th>
+            <td class="product-specs__value">{{ battery_health | default: 'Not specified' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="product-specs__condition" aria-label="Condition details">
+      <h3 class="product-specs__condition-title">Condition Details</h3>
+      <p class="product-specs__condition-text{% unless condition_notes != blank %} product-specs__fallback{% endunless %}">
+        {{ condition_notes | default: 'No additional condition details available.' }}
+      </p>
+    </aside>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('ProductSpecs-{{ section.id }}');
+      if (!root) return;
+
+      var ramNode = root.querySelector('[data-spec-ram] span:last-child');
+      var storageNode = root.querySelector('[data-spec-storage] span:last-child');
+
+      function setText(node, value) {
+        if (!node) return;
+        node.textContent = value || 'Not specified';
+      }
+
+      function updateFromVariant(variant) {
+        if (!variant) return;
+        setText(ramNode, variant.option1);
+        setText(storageNode, variant.option2);
+      }
+
+      updateFromVariant({
+        option1: {{ selected_variant.option1 | json }},
+        option2: {{ selected_variant.option2 | json }}
+      });
+
+      if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined' && PUB_SUB_EVENTS.variantChange) {
+        subscribe(PUB_SUB_EVENTS.variantChange, function (event) {
+          var detail = event && event.data ? event.data : null;
+          if (!detail || !detail.variant) return;
+          updateFromVariant(detail.variant);
+        });
+      }
+
+      // Fallback for themes/apps that trigger native change events but not Dawn pub/sub.
+      document.addEventListener('change', function (evt) {
+        var target = evt.target;
+        if (!target) return;
+        if (!target.closest('variant-selects')) return;
+
+        var selectedVariantScript = document.querySelector('variant-selects [data-selected-variant]');
+        if (!selectedVariantScript) return;
+
+        try {
+          var currentVariant = JSON.parse(selectedVariantScript.textContent || '{}');
+          updateFromVariant(currentVariant);
+        } catch (error) {
+          // Keep fail-safe behavior so variant selection cannot break product page interactions.
+          console.warn('Product specs variant parse failed', error);
+        }
+      });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Product Specs Table",
+  "tag": "section",
+  "class": "section",
+  "templates": ["product"],
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Specs Table"
+    }
+  ]
+}
+{% endschema %}

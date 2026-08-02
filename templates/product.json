@@ -1,0 +1,301 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "wishlist_hero_custom_product_button_dy7iHn": {
+          "type": "shopify://apps/wishlist-hero/blocks/custom-product-button/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
+          "settings": {
+            "displayButtonMode": "icon_only",
+            "contentAlignment": "left",
+            "buttonAlignment": "flex-start",
+            "topMargin": -13,
+            "bottomMargin": -13,
+            "buttonHeight": -6,
+            "maxWidth": -10,
+            "buttonFontSize": -3,
+            "overrideFont": false,
+            "customFont": "sans_serif_n4",
+            "buttonFullwidth": false,
+            "removeBoxShadowAndBorder": true,
+            "horizontalPadding": 0,
+            "iconSize": 17,
+            "iconTopOffset": 2,
+            "addedCssClassNames": "",
+            "addedContainerStyles": ""
+          }
+        },
+        "share_i8QFmV": {
+          "type": "share",
+          "settings": {
+            "share_label": "SHARE"
+          }
+        },
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Condition: Renewed</strong>",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "air_product_reviews_app_summary_block_7WezAM": {
+          "type": "shopify://apps/ag-product-reviews/blocks/app-summary-block/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "product_addons_FKVAAE": {
+          "type": "product-addons",
+          "source": "{{ product.metafields.custom.product_addons.value }}",
+          "settings": {
+            "product_addon": "{{ product.metafields.custom.product_addons.value.products.value }}",
+            "addon_bg": "#2084df",
+            "checkbox_active_color": "#000000",
+            "checkbox_size": 20,
+            "image_size": 32,
+            "image_size_mb": 32,
+            "image_type": "50",
+            "title_size": 12,
+            "title_size_mb": 12,
+            "font_weight": "bold",
+            "price_size": 14,
+            "price_size_mb": 14,
+            "free_gift_info": "{{ product.metafields.custom.product_addons.value.name.value }}",
+            "title_color": "#000000",
+            "price_color": "#000000",
+            "price_opacity": 0.7
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        },
+        "custom_liquid_nrjK3y": {
+          "type": "custom_liquid",
+          "name": "payment icons",
+          "settings": {
+            "custom_liquid": "<ul class=\"icon-list-custom product-payment-icons\" role=\"list\">\n  {% assign enabled_payment_types = 'visa,master,google_pay,paytm,upi' | remove: ' ' | split: ',' %}\n  {% for type in enabled_payment_types %}\n    <li>{{ type | payment_type_svg_tag: class: 'icon-svg' }}</li>\n  {% endfor %}\n</ul>"
+          }
+        },
+        "custom_liquid_HDXNRX": {
+          "type": "custom_liquid",
+          "name": "buying in bulk",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "<a href=\"https://wa.me/message/KFS7SMDFXRSVK1\" class=\"button custom_url\">Buy in bulk</a>\n{% style %}\n.custom_url {\n    display: flex !important;\n    width: 100%;\n    margin: 0px !important;\n    color: #ffffff;\n    background: #000000;\n    font-weight: normal;\n}\n.product__info-container .product-form {\n    margin: 0px !important;\n}\n{% endstyle %}"
+          }
+        },
+        "custom_liquid_Dw6Gqc": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<div class=\"zippy_widget_1511\"></div>"
+          }
+        },
+        "estimated_delivery_JmcnKA": {
+          "type": "estimated-delivery",
+          "settings": {
+            "delivery_text": "Estimated Delivery:",
+            "delivery_icon": "shopify://shop_images/image_75a0489d-7f62-43b7-8ea9-279e2002ea6b.webp",
+            "min_delivery": 2,
+            "max_delivery": 4
+          }
+        },
+        "custom_liquid_AEJRbg": {
+          "type": "custom_liquid",
+          "name": "trust badges",
+          "settings": {
+            "custom_liquid": "{% comment %}\n<!-- Designed by OnHOW YouTube Channel - Anas El Medlaoui -->\n{% endcomment %}\n<style>\n  .onhow-trust-badges-container {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 5px 10px;\n    padding: 5px;\n    background-color: #f9f9f9;\n    border-radius: 3px;\n    margin: 3px 0;\n  }\n  \n  .onhow-trust-badge {\n    display: flex;\n    align-items: center;\n    transition: all 0.2s ease;\n    position: relative;\n    padding-bottom: 0px;\n  }\n  \n  .onhow-trust-badge:hover {\n    transform: translateY(-2px);\n    color: #000;\n  }\n  \n  .onhow-trust-badge:hover svg {\n    fill: #000;\n  }\n  \n  .onhow-trust-badge::after {\n    content: '';\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    width: 0;\n    height: 0px;\n    background-color: #000;\n    transition: width 0.3s ease;\n  }\n  \n  .onhow-trust-badge:hover::after {\n    width: 80%;\n  }\n  \n  .onhow-trust-badge svg {\n    width: 10px;\n    height: 10px;\n    margin-right: 5px;\n    fill: #555;\n    transition: fill 0.2s ease;\n  }\n  \n  .onhow-trust-badge-text {\n    font-size: 10px;\n    color: #555;\n    font-weight: 500;\n    transition: color 0.2s ease;\n    font-family: var(--font-body-family);\n  }\n  \n  @media (max-width: 400px) {\n    .onhow-trust-badges-container {\n      padding: 3px;\n      gap: 1px;\n    }\n  }\n</style>\n<div class=\"onhow-trust-badges-container\">\n  <div class=\"onhow-trust-badge\">\n    <svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z\"/>\n    </svg>\n    <span class=\"onhow-trust-badge-text\">Free Shipping</span>\n  </div>\n  \n  <div class=\"onhow-trust-badge\">\n    <svg viewBox=\"0 0 10 10\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z\"/>\n    </svg>\n    <span class=\"onhow-trust-badge-text\">5 Days Easy Return</span>\n  </div>\n  \n  <div class=\"onhow-trust-badge\">\n    <svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z\"/>\n    </svg>\n    <span class=\"onhow-trust-badge-text\">Ssl Secured</span>\n  </div>\n  \n  <div class=\"onhow-trust-badge\">\n    <svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z\"/>\n    </svg>\n    <span class=\"onhow-trust-badge-text\">6mths Warranty</span>\n  </div>\n</div>"
+          }
+        },
+        "description": {
+          "type": "description",
+          "name": " Description side",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "wishlist_hero_custom_product_button_dy7iHn",
+        "share_i8QFmV",
+        "vendor",
+        "title",
+        "air_product_reviews_app_summary_block_7WezAM",
+        "price",
+        "variant_picker",
+        "product_addons_FKVAAE",
+        "buy_buttons",
+        "custom_liquid_nrjK3y",
+        "custom_liquid_HDXNRX",
+        "custom_liquid_Dw6Gqc",
+        "estimated_delivery_JmcnKA",
+        "custom_liquid_AEJRbg",
+        "description"
+      ],
+      "custom_css": [
+        "h1 {font-size: 20px;}"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": true,
+        "padding_top": 0,
+        "padding_bottom": 4
+      }
+    },
+    "custom_tabs_hdLBQE": {
+      "type": "custom-tabs",
+      "blocks": {
+        "tab_g3kU9y": {
+          "type": "tab",
+          "settings": {
+            "heading": "Description",
+            "tab_content": "<h6>{{ product.metafields.custom.test | metafield_tag }}</h6>"
+          }
+        },
+        "tab_fQAEPM": {
+          "type": "tab",
+          "settings": {
+            "heading": "Processor",
+            "tab_content": "<h6>{{ product.metafields.custom.tab_processor | metafield_tag }}</h6>"
+          }
+        },
+        "tab_8AGark": {
+          "type": "tab",
+          "settings": {
+            "heading": "Ram/ Storage",
+            "tab_content": "<h6>{{ product.metafields.custom.tab_ram_storage | metafield_tag }}</h6>"
+          }
+        },
+        "tab_n7pmeR": {
+          "type": "tab",
+          "settings": {
+            "heading": "Display/ Graphics",
+            "tab_content": "<h6>{{ product.metafields.custom.tab_display_graphics | metafield_tag }}</h6>"
+          }
+        }
+      },
+      "block_order": [
+        "tab_g3kU9y",
+        "tab_fQAEPM",
+        "tab_8AGark",
+        "tab_n7pmeR"
+      ],
+      "custom_css": [
+        "h6 {font-size: 14px;}"
+      ],
+      "settings": {}
+    },
+    "ai_product_summary": {
+      "type": "ai-product-summary",
+      "settings": {
+        "heading": "AI Product Summary"
+      }
+    },
+    "product_comparison_bE8h3K": {
+      "type": "product-comparison",
+      "settings": {
+        "heading": "Compare similar products",
+        "subheading": "See how this product stacks up against similar options.",
+        "heading_size": "h1",
+        "collection": "",
+        "products_to_compare": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "recently_viewed_products_tD6k2M": {
+      "type": "recently-viewed-products",
+      "settings": {
+        "heading": "Your Browsing history",
+        "heading_size": "h1",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 4
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "custom_css": [
+        "h2 {font-size: 25px;}"
+      ],
+      "settings": {
+        "heading": "Have a look!",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 4,
+        "padding_bottom": 4
+      }
+    },
+    "air_reviews_clean": {
+      "type": "apps",
+      "blocks": {
+        "air_product_reviews_app_block_review_list_clean": {
+          "type": "shopify://apps/ag-product-reviews/blocks/app-block-review-list/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
+          "settings": {
+            "air_blockreviews_summaryHeading": "Customer reviews",
+            "air_blockreviews_layout": "carousel",
+            "air_blockreviews_singleStarColor": "#f59e0b",
+            "air_blockreviews_primaryColor": "#121212"
+          }
+        }
+      },
+      "block_order": [
+        "air_product_reviews_app_block_review_list_clean"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ai_product_summary",
+    "custom_tabs_hdLBQE",
+    "product_comparison_bE8h3K",
+    "recently_viewed_products_tD6k2M",
+    "related-products",
+    "air_reviews_clean"
+  ]
+}

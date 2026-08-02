@@ -1,0 +1,96 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "order": [
+    "image_banner",
+    "collection_list_CxDxpB",
+    "featured_collection"
+  ],
+  "sections": {
+    "collection_list_CxDxpB": {
+      "block_order": [
+        "featured_collection_dXQUDN",
+        "featured_collection_kaUz6E"
+      ],
+      "blocks": {
+        "featured_collection_dXQUDN": {
+          "settings": {
+            "collection": "processor"
+          },
+          "type": "featured_collection"
+        },
+        "featured_collection_kaUz6E": {
+          "settings": {
+            "collection": "touchscreen-laptops"
+          },
+          "type": "featured_collection"
+        }
+      },
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "heading_size": "h2",
+        "image_ratio": "adapt",
+        "padding_bottom": 16,
+        "padding_top": 12,
+        "show_view_all": true,
+        "swipe_on_mobile": false,
+        "title": "Browse all Collections"
+      },
+      "type": "collection-list"
+    },
+    "featured_collection": {
+      "settings": {
+        "collection": "refurbished-laptop",
+        "color_scheme": "scheme-1",
+        "columns_desktop": 6,
+        "columns_mobile": "2",
+        "description": "",
+        "description_style": "body",
+        "enable_desktop_slider": false,
+        "full_width": true,
+        "heading_size": "h2",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "padding_bottom": 8,
+        "padding_top": 8,
+        "products_to_show": 25,
+        "quick_add": "none",
+        "show_description": false,
+        "show_rating": false,
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_view_all": false,
+        "swipe_on_mobile": false,
+        "title": "Refurbished laptops",
+        "view_all_style": "solid"
+      },
+      "type": "featured-collection"
+    },
+    "image_banner": {
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-3",
+        "desktop_content_alignment": "center",
+        "desktop_content_position": "middle-center",
+        "image_behavior": "ambient",
+        "image_height": "adapt",
+        "image_overlay_opacity": 50,
+        "mobile_content_alignment": "center",
+        "show_text_below": false,
+        "show_text_box": false,
+        "stack_images_on_mobile": false
+      },
+      "type": "image-banner"
+    }
+  }
+}

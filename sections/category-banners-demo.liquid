@@ -1,0 +1,439 @@
+{%- style -%}
+  .category-banners-demo-{{ section.id }} {
+    --cb-gap: {{ section.settings.gap }}px;
+    --cb-radius: 50%;
+    --cb-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr));
+    gap: var(--cb-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .category-banners-demo-{{ section.id }} .category-banners-demo__grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    }
+  }
+
+  .category-banners-demo-{{ section.id }} li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    text-decoration: none;
+    color: inherit;
+    background: rgba(var(--color-foreground), 0.05);
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 220px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .category-banners-demo-{{ section.id }} .category-banners-demo__item {
+      max-width: 110px;
+    }
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--cb-overlay));
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__content {
+    position: relative;
+    padding: 8px 4px;
+    text-align: center;
+    color: {{ section.settings.text_color }};
+    background: transparent;
+    max-width: 220px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .category-banners-demo-{{ section.id }} .category-banners-demo__content {
+      max-width: 110px;
+    }
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__title {
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.15;
+    font-size: {{ section.settings.title_size }}px;
+    letter-spacing: 0;
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__subtitle {
+    margin: 0;
+    opacity: 0.9;
+    line-height: 1.25;
+    font-size: {{ section.settings.subtitle_size }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .category-banners-demo-{{ section.id }} .category-banners-demo__grid {
+      gap: clamp(6px, 2.5vw, var(--cb-gap));
+    }
+
+    .category-banners-demo-{{ section.id }} li {
+      align-items: stretch;
+    }
+
+    .category-banners-demo-{{ section.id }} .category-banners-demo__content {
+      width: 100%;
+      max-width: none;
+      padding: 6px 2px 0;
+    }
+
+    .category-banners-demo-{{ section.id }} .category-banners-demo__title {
+      font-size: clamp(10px, 3.3vw, {{ section.settings.title_size }}px);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .category-banners-demo-{{ section.id }} .category-banners-demo__subtitle {
+      font-size: clamp(9px, 3vw, {{ section.settings.subtitle_size }}px);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+  }
+
+  .category-banners-demo-{{ section.id }} .category-banners-demo__item:focus-visible {
+    outline: 2px solid rgba(var(--color-foreground), 0.7);
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) {
+    .category-banners-demo-{{ section.id }} .category-banners-demo__item:hover .category-banners-demo__image {
+      transform: scale(1.03);
+      transition: transform 220ms ease;
+    }
+  }
+{%- endstyle -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient category-banners-demo-{{ section.id }}">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- unless section.settings.title == blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin">
+        <h2 class="{{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+      </div>
+    {%- endunless -%}
+
+	    <ul class="category-banners-demo__grid" role="list">
+	      {%- for block in section.blocks -%}
+	        {%- liquid
+	          assign banner_collection = block.settings.collection
+
+	          assign banner_title = block.settings.title
+	          if banner_title == blank and banner_collection != blank
+	            assign banner_title = banner_collection.title
+	          endif
+
+	          assign banner_subtitle = block.settings.subtitle
+
+	          assign banner_link = block.settings.link
+	          if banner_link == blank and banner_collection != blank
+	            assign banner_link = banner_collection.url
+	          endif
+
+	          assign banner_image = block.settings.image
+	          if banner_image == blank and banner_collection != blank
+	            assign banner_image = banner_collection.image
+	            if banner_image == blank
+	              assign banner_image = banner_collection.featured_image
+	            endif
+	          endif
+	        -%}
+
+        <li {{ block.shopify_attributes }}>
+          {%- if banner_link != blank -%}
+            <a class="category-banners-demo__item" href="{{ banner_link }}">
+          {%- else -%}
+	            <div class="category-banners-demo__item">
+	          {%- endif -%}
+	              <div class="category-banners-demo__media">
+	                {%- if banner_image != blank -%}
+	                  {{
+	                    banner_image
+	                    | image_url: width: 1600
+	                    | image_tag:
+	                      loading: 'lazy',
+	                      class: 'category-banners-demo__image'
+	                  }}
+	                {%- else -%}
+	                  {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg category-banners-demo__image' }}
+	                {%- endif -%}
+                  <div class="category-banners-demo__overlay" aria-hidden="true"></div>
+	              </div>
+          {%- if banner_link != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+	        
+	        <div class="category-banners-demo__content">
+	          {%- unless banner_title == blank -%}
+	            <p class="category-banners-demo__title">{{ banner_title }}</p>
+	          {%- endunless -%}
+            {%- unless banner_subtitle == blank -%}
+              <p class="category-banners-demo__subtitle">{{ banner_subtitle }}</p>
+            {%- endunless -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category banners (demo)",
+  "tag": "section",
+  "class": "section section-category-banners-demo",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+	  "settings": [
+	    {
+	      "type": "inline_richtext",
+	      "id": "title",
+	      "label": "Heading",
+	      "default": "Shop by category"
+	    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "h1",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+	    {
+	      "type": "range",
+	      "id": "columns_desktop",
+	      "label": "Columns (desktop)",
+	      "min": 2,
+	      "max": 6,
+	      "step": 1,
+	      "default": 3
+	    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "min": 1,
+	      "max": 6,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 6,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio_desktop",
+      "label": "Aspect ratio (desktop)",
+      "default": "16 / 10",
+      "options": [
+        { "value": "16 / 10", "label": "Wide" },
+        { "value": "4 / 3", "label": "Standard" },
+        { "value": "1 / 1", "label": "Square" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio_mobile",
+      "label": "Aspect ratio (mobile)",
+      "default": "4 / 3",
+      "options": [
+        { "value": "16 / 10", "label": "Wide" },
+        { "value": "4 / 3", "label": "Standard" },
+        { "value": "1 / 1", "label": "Square" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+	    {
+	      "type": "color",
+	      "id": "text_color",
+	      "label": "Text color",
+	      "default": "#000000"
+	    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 26,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+	  "blocks": [
+	    {
+	      "type": "banner",
+	      "name": "Banner",
+	      "settings": [
+	        {
+	          "type": "collection",
+	          "id": "collection",
+	          "label": "Collection"
+	        },
+	        {
+	          "type": "image_picker",
+	          "id": "image",
+	          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Low budget"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Deals under ₹999"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category banners (demo)",
+      "blocks": [
+        { "type": "banner", "settings": { "title": "Low budget", "subtitle": "Deals under ₹999" } },
+        { "type": "banner", "settings": { "title": "Best selling", "subtitle": "Most loved picks" } },
+	        { "type": "banner", "settings": { "title": "New arrivals", "subtitle": "Fresh in store" } }
+	      ]
+    }
+  ]
+}
+{% endschema %}

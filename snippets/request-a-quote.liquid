@@ -1,0 +1,54 @@
+{%- comment -%}
+  Request a Quote modal (global, render once).
+  Requires:
+    - assets/request-a-quote.css
+    - assets/request-a-quote.js
+{%- endcomment -%}
+
+<div id="raq-overlay" class="raq-overlay" role="dialog" aria-modal="true" aria-labelledby="raq-title" hidden>
+  <div class="raq-modal" role="document">
+    <div class="raq-header">
+      <div class="raq-header__copy">
+        <h2 id="raq-title" class="raq-title">Request a Quote</h2>
+        <p class="raq-subtitle">We’ll get back to you about availability.</p>
+      </div>
+      <button type="button" class="raq-close-btn" aria-label="Close">×</button>
+    </div>
+
+    <div id="raq-form-wrap" class="raq-body">
+      <div id="raq-product-ref" class="raq-product-ref">
+        Product: <strong id="raq-product-name"></strong>
+      </div>
+
+      <div class="raq-field">
+        <label class="raq-label" for="raq-name">Full Name <span class="raq-required">*</span></label>
+        <input class="raq-input" type="text" id="raq-name" autocomplete="name" placeholder="Your full name" required>
+        <span class="raq-error-msg" id="raq-name-err">Please enter your name</span>
+      </div>
+
+      <div class="raq-field">
+        <label class="raq-label" for="raq-phone">Mobile Number <span class="raq-required">*</span></label>
+        <input class="raq-input" type="tel" id="raq-phone" autocomplete="tel" placeholder="+91 98765 43210" required>
+        <span class="raq-error-msg" id="raq-phone-err">Please enter a valid mobile number</span>
+      </div>
+
+      <div class="raq-field">
+        <label class="raq-label" for="raq-email">Email <span class="raq-optional">(optional)</span></label>
+        <input class="raq-input" type="email" id="raq-email" autocomplete="email" placeholder="your@email.com">
+        <span class="raq-error-msg" id="raq-email-err">Please enter a valid email</span>
+      </div>
+    </div>
+
+    <div id="raq-success" class="raq-success" hidden>
+      <div class="raq-success__icon" aria-hidden="true">✓</div>
+      <h3 class="raq-success__title">Request received</h3>
+      <p class="raq-success__text">Thanks! We’ll reach out as soon as possible.</p>
+    </div>
+
+    <div id="raq-footer" class="raq-footer">
+      <button type="button" class="raq-btn raq-btn--secondary raq-close-btn">Cancel</button>
+      <button type="button" id="raq-submit" class="raq-btn raq-btn--primary">Send Request</button>
+    </div>
+  </div>
+</div>
+

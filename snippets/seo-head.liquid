@@ -1,0 +1,124 @@
+{%- liquid
+  assign site_name = settings.brand_headline | default: shop.name | strip
+  assign site_name_short = site_name | split: '|' | first | split: ' - ' | first | strip
+
+  assign seo_title_input = seo_title_override
+  if seo_title_input == blank
+    if request.page_type == 'product' and product != blank
+      assign seo_title_input = product.title
+    elsif request.page_type == 'collection' and collection != blank
+      assign seo_title_input = collection.title
+    elsif request.page_type == 'article' and article != blank
+      assign seo_title_input = article.title
+    elsif request.page_type == 'page' and page != blank
+      assign seo_title_input = page.title
+    elsif request.page_type == 'blog' and blog != blank
+      assign seo_title_input = blog.title
+    else
+      assign seo_title_input = page_title
+    endif
+  endif
+  assign seo_title_input = seo_title_input | strip
+
+  assign seo_description = seo_description_override | default: page_description
+  assign seo_canonical_url = seo_canonical_url_override | default: canonical_url
+  assign fallback_description = settings.brand_description | strip_html | strip | replace: '\n', ' '
+  if fallback_description == blank
+    assign fallback_description = shop.description | strip_html | strip | truncate: 155, ''
+  endif
+
+  assign header_html = content_for_header | default: ''
+  assign header_html_downcase = header_html | downcase
+
+  assign header_has_meta_description = header_html_downcase contains 'name="description"'
+  assign header_has_canonical = header_html_downcase contains 'rel="canonical"'
+  assign header_has_og_title = header_html_downcase contains 'property="og:title"'
+  assign header_has_twitter_card = header_html_downcase contains 'name="twitter:card"'
+
+  assign seo_title_input_downcase = seo_title_input | downcase
+  assign site_name_downcase = site_name | downcase
+  assign site_name_short_downcase = site_name_short | downcase
+
+  capture seo_title
+    if request.page_type == 'index'
+      echo site_name
+    else
+      echo seo_title_input
+
+      if current_tags and current_tags != blank
+        echo ' | Tagged: '
+        echo current_tags | join: ', '
+      endif
+
+      if current_page and current_page != 1
+        echo ' | Page '
+        echo current_page
+      endif
+
+      unless seo_title_input_downcase contains site_name_short_downcase or seo_title_input_downcase contains site_name_downcase
+        echo ' | '
+        echo site_name_short
+      endunless
+    endif
+  endcapture
+
+  assign seo_title = seo_title | strip | truncate: 60, '' | strip
+
+  if seo_description == blank
+    case request.page_type
+      when 'product'
+        assign seo_description = product.description | strip_html | strip | truncate: 155, ''
+        if seo_description == blank
+          assign seo_description = 'Rent or buy ' | append: seo_title_input | append: ' from ' | append: site_name_short | append: '. Certified refurbished laptops with warranty and delivery across India.'
+        endif
+      when 'collection'
+        assign seo_description = collection.description | strip_html | strip | truncate: 155, ''
+        if seo_description == blank
+          assign seo_description = 'Browse refurbished ' | append: seo_title_input | append: ' laptops from ' | append: site_name_short | append: '. Buy or rent with warranty and delivery across India.'
+        endif
+      when 'article'
+        assign seo_description = article.excerpt_or_content | strip_html | strip | truncate: 155, ''
+        if seo_description == blank
+          assign seo_description = seo_title_input | append: ' from ' | append: site_name_short | append: '.'
+        endif
+      when 'page'
+        assign seo_description = page.content | strip_html | strip | truncate: 155, ''
+        if seo_description == blank
+          assign seo_description = seo_title_input | append: ' at ' | append: site_name_short | append: '.'
+        endif
+      when 'index'
+        assign seo_description = shop.meta_description | strip_html | strip | truncate: 155, ''
+        if seo_description == blank
+          assign seo_description = fallback_description
+        endif
+    endcase
+  endif
+
+  if seo_description == blank
+    assign seo_description = fallback_description
+  endif
+
+  assign query_string = request.query_string | default: ''
+  assign should_noindex_query = false
+  if query_string != blank and (query_string contains 'filter.' or query_string contains 'filter=' or query_string contains 'sort_by=')
+    assign should_noindex_query = true
+  endif
+-%}
+
+{%- if seo_noindex or request.page_type == 'search' or should_noindex_query -%}
+  <meta name="robots" content="noindex,follow">
+{%- endif -%}
+
+{%- unless header_has_canonical -%}
+  <link rel="canonical" href="{{ seo_canonical_url }}">
+{%- endunless -%}
+
+<title>{{ seo_title | escape }}</title>
+
+{%- if seo_description != blank and header_has_meta_description == false -%}
+  <meta name="description" content="{{ seo_description | escape }}">
+{%- endif -%}
+
+{%- unless header_has_og_title or header_has_twitter_card -%}
+  {% render 'meta-tags', page_description: seo_description, page_title: seo_title_input, site_name: site_name %}
+{%- endunless -%}

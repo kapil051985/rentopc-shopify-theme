@@ -1,0 +1,150 @@
+<style>
+  .custom-tabs-section {
+    width: 100%;
+  }
+
+  .custom-tabs-section .custom--tabs {
+    list-style-type: none;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .custom-tabs-section .tab__list {
+    background-color: transparent;
+    display: inline-block;
+  }
+
+  .custom-tabs-section .custom__tab-content {
+    display: none;
+    padding: 20px 0;
+  }
+
+  .custom-tabs-section .custom__tab-content.active {
+    display: block;
+  }
+
+  .custom-tabs-section .tab__list h6.custom-tab {
+    display: inline-block;
+    padding: 12px 20px;
+    cursor: pointer;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #555;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    margin-bottom: -2px;
+  }
+
+  .custom-tabs-section .tab__list h6.custom-tab:hover {
+    color: #1565C0;
+  }
+
+  .custom-tabs-section .tab__list h6.custom-tab.active {
+    color: #1565C0;
+    border-bottom: 3px solid #1565C0;
+    font-weight: 700;
+  }
+
+  @media only screen and (max-width: 576px) {
+    .custom-tabs-section .custom--tabs {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .custom-tabs-section .tab__list h6.custom-tab {
+      white-space: nowrap;
+      padding: 10px 14px;
+    }
+  }
+
+  .custom-tabs-section table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 20px 0 !important;
+    font-size: 1.4rem !important;
+    table-layout: auto !important;
+  }
+  .custom-tabs-section table th,
+  .custom-tabs-section table td {
+    border: 1px solid #e5e7eb !important;
+    padding: 12px 16px !important;
+    text-align: left !important;
+  }
+  .custom-tabs-section table th {
+    background-color: #f9fafb !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+  }
+</style>
+
+<div class="custom-tabs-section page-width cv-auto" data-custom-tabs>
+  <ul class="custom--tabs">
+    {% for block in section.blocks %}
+      {% if block.type == 'tab' %}
+        <li class="tab__list">
+          <h6
+            class="custom-tab {% if forloop.first %}active{% endif %}"
+            data-content-id="content--{{ block.id }}--{{ section.id }}"
+          >
+            {{ block.settings.heading }}
+          </h6>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  {% for block in section.blocks %}
+    {% if block.type == 'tab' %}
+      <div
+        id="content--{{ block.id }}--{{ section.id }}"
+        class="custom__tab-content {% if forloop.first %}active{% endif %}"
+      >
+        {{ block.settings.tab_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<script src="{{ 'custom-tabs.js' | asset_url }}" defer="defer"></script>
+
+
+{% schema %}
+{
+  "name": "Tabs",
+   "blocks": [
+    {
+      "type": "tab",
+      "name": "Tabs",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "info": "Include a heading that explains the tab."
+        },
+         {
+          "type": "richtext",
+          "id": "tab_content",
+          "label": "Content"
+        }
+      ]
+    }
+  ],
+   "presets": [
+    {
+      "name": "Tabs",
+      "blocks": [
+        {
+          "type": "tab"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

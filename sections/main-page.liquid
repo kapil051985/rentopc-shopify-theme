@@ -1,0 +1,241 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {%- if page.handle == 'privacy-policy' -%}
+    .privacy-policy-page.page-width--narrow {
+      max-width: 980px;
+    }
+
+    .privacy-policy-page .rte {
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .privacy-policy-page .main-page-title {
+      font-size: calc(var(--font-heading-scale) * 3rem);
+      margin-bottom: 1.5rem;
+    }
+
+    @media screen and (min-width: 750px) {
+      .privacy-policy-page .rte {
+        font-size: 17px;
+      }
+
+      .privacy-policy-page .main-page-title {
+        font-size: calc(var(--font-heading-scale) * 4rem);
+      }
+    }
+
+    .privacy-policy-page .rte p {
+      margin: 0 0 1.1rem;
+    }
+
+    .privacy-policy-page .rte p > strong:only-child {
+      display: block;
+      font-size: 1.125em;
+      line-height: 1.35;
+      margin: 2rem 0 0.75rem;
+    }
+
+    .privacy-policy-page .rte p > strong:only-child + p {
+      margin-top: 0;
+    }
+
+    .privacy-policy-page .rte h2,
+    .privacy-policy-page .rte h3,
+    .privacy-policy-page .rte h4 {
+      margin: 2rem 0 0.75rem;
+      line-height: 1.3;
+    }
+
+    .privacy-policy-page .rte ul,
+    .privacy-policy-page .rte ol {
+      list-style-position: outside;
+      padding-left: 1.25rem;
+      margin: 0 0 1.1rem;
+    }
+
+    .privacy-policy-page .rte li {
+      margin: 0.35rem 0;
+    }
+
+    .privacy-policy-page .rte li > p {
+      margin: 0;
+    }
+
+    .privacy-policy-page .rte a {
+      overflow-wrap: anywhere;
+    }
+
+    .privacy-policy-page .rte table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 0 1.5rem;
+    }
+
+    .privacy-policy-page .rte th,
+    .privacy-policy-page .rte td {
+      padding: 10px 12px;
+      border: 1px solid rgba(var(--color-foreground), 0.15);
+      vertical-align: top;
+    }
+
+    .privacy-policy-page .rte tr:nth-child(even) td {
+      background: rgba(var(--color-foreground), 0.03);
+    }
+  {%- endif -%}
+
+  {%- if page.handle == 'wishlist' -%}
+    .wishlist-page.page-width--narrow {
+      max-width: 1100px;
+    }
+
+    .wishlist-page .main-page-title {
+      font-size: calc(var(--font-heading-scale) * 3rem);
+      margin-bottom: 1.5rem;
+    }
+
+    @media screen and (min-width: 750px) {
+      .wishlist-page .main-page-title {
+        font-size: calc(var(--font-heading-scale) * 4rem);
+      }
+    }
+
+    .wishlist-page .rte {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .wishlist-page .wishlist-hero-page-header {
+      gap: 0.75rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing {
+      font-family: var(--font-body-family);
+      color: rgb(var(--color-foreground));
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiTypography-'] {
+      font-family: var(--font-body-family);
+      color: inherit;
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing a {
+      color: inherit;
+      text-decoration-thickness: 0.1rem;
+      text-underline-offset: 0.25rem;
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing a:hover {
+      text-decoration-thickness: 0.2rem;
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiCard-root,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiCard-root'] {
+      border: 1px solid rgba(var(--color-foreground), 0.12);
+      border-radius: var(--media-radius);
+      box-shadow: none;
+      overflow: hidden;
+      background: rgb(var(--color-background));
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiButton-root,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiButton-root'] {
+      border-radius: var(--buttons-radius);
+      text-transform: none;
+      font-family: var(--font-body-family);
+      font-weight: 600;
+      letter-spacing: 0.04rem;
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiButton-contained,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiButton-contained'] {
+      background: rgb(var(--color-foreground));
+      color: rgb(var(--color-background));
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiButton-contained:hover,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiButton-contained']:hover {
+      background: rgba(var(--color-foreground), 0.9);
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiButton-outlined,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiButton-outlined'] {
+      border-color: rgba(var(--color-foreground), 0.25);
+      color: rgb(var(--color-foreground));
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiButton-outlined:hover,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiButton-outlined']:hover {
+      border-color: rgba(var(--color-foreground), 0.45);
+      background: rgba(var(--color-foreground), 0.04);
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiInputBase-root,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiInputBase-root'] {
+      border-radius: var(--inputs-radius);
+      font-family: var(--font-body-family);
+    }
+
+    .wishlist-page .wishlisthero-customer-view-listing .MuiDivider-root,
+    .wishlist-page .wishlisthero-customer-view-listing [class*='MuiDivider-root'] {
+      border-color: rgba(var(--color-foreground), 0.12);
+    }
+  {%- endif -%}
+{%- endstyle -%}
+
+<div class="page-width page-width--narrow section-{{ section.id }}-padding{% if page.handle == 'privacy-policy' %} privacy-policy-page{% endif %}{% if page.handle == 'wishlist' %} wishlist-page{% endif %}">
+  <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    {{ page.title | escape }}
+  </h1>
+  <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

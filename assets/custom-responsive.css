@@ -1,0 +1,83 @@
+/* Global mobile responsiveness helpers */
+
+/* Prevent accidental horizontal scroll from wide children */
+html,
+body {
+  overflow-x: clip;
+}
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Make rich content less likely to overflow */
+.rte,
+.rich-text__text,
+.product__description {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.rte iframe,
+.rte video,
+.rte img {
+  max-width: 100%;
+}
+
+/* iOS: avoid zooming on form focus */
+@media screen and (max-width: 749px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .page-width {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+  }
+
+  /* Header: keep logo from forcing overflow */
+  .header__heading-link {
+    max-width: 70vw;
+  }
+  .header__heading-logo {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Product: allow payment icons to wrap cleanly */
+  .product-payment-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+  }
+}
+
+/* Trust badges: avoid cramped 2-col grid on very small screens */
+@media screen and (max-width: 380px) {
+  .onhow-trust-badges-container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Select element double-border fix */
+.select__select,
+.product-form__input select,
+variant-selects select {
+  border: 1px solid rgba(17, 24, 39, .14) !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+.select__select:focus,
+.product-form__input select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(17, 24, 39, .3) !important;
+}
