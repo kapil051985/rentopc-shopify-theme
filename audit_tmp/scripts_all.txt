@@ -1,0 +1,57 @@
+layout/theme.liquid:54:    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:55:	    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:56:	    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:57:    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:58:    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:59:    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:63:    <script src="{{ 'request-a-quote.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:66:      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:327:      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:383:      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:387:      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+layout/theme.liquid:431:     <script src="{{ 'theme-inline.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:22:	    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:23:	    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:24:	    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:25:    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:26:    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:27:    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:30:      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.blank.liquid:375:      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+layout/password.liquid:187:    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+layout/password.liquid:188:    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+layout/password.liquid:189:    <script src="{{ 'password-modal.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:22:	    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:23:	    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:24:	    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:25:    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:26:    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:27:    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:30:      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.footer.liquid:375:      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:22:	    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:23:	    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:24:	    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:25:    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:26:    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:27:    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:30:      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+layout/theme.gempages.header.liquid:375:      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:22:	    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:23:	    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:24:	    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:25:    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:26:    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:27:    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:30:      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+layout/theme.gem-layout-none.liquid:375:      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+snippets/gift-card-recipient-form.liquid:14:  <script src="{{ 'recipient-form.js' | asset_url }}" defer="defer"></script>
+snippets/buy-buttons.liquid:194:    <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
+snippets/facets.liquid:110:            <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
+snippets/cart-drawer.liquid:11:<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+snippets/cart-drawer.liquid:12:<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+snippets/gp-head.liquid:46:      <script src="https://d2ls1pfffhvy22.cloudfront.net/assets-v2/gp-lazyload.v2.js?v={{ shop.metafields.GEMPAGES.ASSETS_VERSION }}" defer></script>
+snippets/gp-head.liquid:47:      <script src="https://d2ls1pfffhvy22.cloudfront.net/assets-v2/gp-global.js?v={{ shop.metafields.GEMPAGES.ASSETS_VERSION }}" defer></script>
+snippets/gempages-page-config.liquid:13:  <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+snippets/gempages-page-config.liquid:17:  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+snippets/share-button.liquid:13:<script src="{{ 'share.js' | asset_url }}" defer="defer"></script>
