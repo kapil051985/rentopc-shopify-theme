@@ -99,15 +99,35 @@
   function initRoot(root) {
     initFeaturedCollectionWishlist(root);
 
-    function waitForSwiper() {
+    // Lazy-init Swiper only when the carousel approaches the viewport.
+    // Preserves autoplay, navigation, touch gestures and responsive breakpoints
+    // (all Swiper options are unchanged; only the *time* of Swiper's construction is deferred).
+    var swiperReady = false;
+    function ensureSwiperInit() {
+      if (swiperReady) return;
       if (window.Swiper) {
+        swiperReady = true;
         initFeaturedCollection(root);
         return;
       }
-      window.setTimeout(waitForSwiper, 60);
+      window.setTimeout(ensureSwiperInit, 60);
     }
 
-    waitForSwiper();
+    if (typeof IntersectionObserver === 'function') {
+      var observer = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            observer.disconnect();
+            ensureSwiperInit();
+            break;
+          }
+        }
+      }, { rootMargin: '400px 0px' });
+      observer.observe(root);
+    } else {
+      // Fallback for very old browsers: preserve original eager behaviour.
+      ensureSwiperInit();
+    }
   }
 
   function boot() {

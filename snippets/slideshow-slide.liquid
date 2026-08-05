@@ -38,13 +38,13 @@
       {%- if is_first_slide -%}
         {{
           slide_image
-          | image_url: width: 3840
+          | image_url: width: 3840, format: 'webp'
           | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
         }}
       {%- else -%}
         {{
           slide_image
-          | image_url: width: 3840
+          | image_url: width: 3840, format: 'webp'
           | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
         }}
       {%- endif -%}
