@@ -15,6 +15,46 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   RentOPC Header & Navigation v2 — design tokens
+   Source of truth: Build Spec 01 (v2, Final for Build) §9
+   Do not hard-code any header value; reference these tokens.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --rop-color-ink-900: #0B0E14;
+  --rop-color-ink-700: #252B36;
+  --rop-color-ink-600: #3B4250;
+  --rop-color-ink-500: #5A6474;
+  --rop-color-ink-400: #838D9E;
+  --rop-color-ink-300: #AEB6C2;
+  --rop-color-ink-200: #D6DBE2;
+  --rop-color-ink-100: #E9ECF1;
+  --rop-color-ink-50:  #F6F7F9;
+  --rop-color-paper:   #FFFFFF;
+  --rop-color-focus:   #2563EB;
+
+  --rop-space-2: 8px;
+  --rop-space-3: 12px;
+  --rop-space-4: 16px;
+  --rop-space-5: 24px;
+  --rop-space-6: 32px;
+
+  --rop-radius-6:  6px;
+  --rop-radius-10: 10px;
+  --rop-radius-14: 14px;
+
+  --rop-duration-fast: 120ms;
+  --rop-duration-base: 200ms;
+  --rop-duration-slow: 320ms;
+  --rop-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  --rop-header-announcement-h:   32px;
+  --rop-header-main-h:           60px;
+  --rop-header-main-h-condensed: 56px;
+  --rop-header-total-h:          92px;
+}
+
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
