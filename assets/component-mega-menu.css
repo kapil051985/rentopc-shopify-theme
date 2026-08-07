@@ -85,3 +85,179 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RentOPC Header & Navigation v2 — main-bar + dropdown restyle
+   Source: Build Spec 01 §3 Band 2, §3 Dropdown, §3 Sticky, §4 mobile.
+   Scoped by [data-rop-header]. Additive overrides on Dawn's default.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* --- Main bar (desktop ≥990px) --- */
+@media (min-width: 990px) {
+  [data-rop-header].header {
+    height: var(--rop-header-main-h,60px);
+    max-width: 1280px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    background: var(--rop-color-paper,#FFFFFF);
+    border-bottom: 1px solid var(--rop-color-ink-200,#D6DBE2);
+    transition: height var(--rop-duration-base,200ms) var(--rop-ease-standard,cubic-bezier(0.2,0,0,1)),
+                box-shadow var(--rop-duration-base,200ms) ease;
+  }
+  [data-rop-header] .header__heading-logo,
+  [data-rop-header] .header__heading-link img {
+    height: 40px; width: auto;
+    transition: height var(--rop-duration-base,200ms) var(--rop-ease-standard,cubic-bezier(0.2,0,0,1));
+  }
+  [data-rop-header] .header__inline-menu {
+    justify-content: center;
+    display: flex; gap: 28px;
+  }
+  [data-rop-header] .header__menu-item {
+    font-size: 15px; font-weight: 500;
+    color: var(--rop-color-ink-900,#0B0E14);
+    padding: 20px 0;                /* 44px hit area within 60px bar */
+    position: relative;
+    text-decoration: none;
+  }
+  [data-rop-header] .header__menu-item:hover,
+  [data-rop-header] .header__menu-item:focus-visible,
+  [data-rop-header] .header__active-menu-item {
+    text-decoration: underline;
+    text-decoration-color: var(--rop-color-ink-900,#0B0E14);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    transition: text-decoration-color var(--rop-duration-fast,120ms) ease;
+  }
+  [data-rop-header] .header__menu-item:focus-visible {
+    outline: 2px solid var(--rop-color-focus,#2563EB);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  [data-rop-header] .header__icons { gap: 16px; }
+
+  /* Sticky-condensed state — spec §3 Sticky */
+  [data-rop-header].rop-header--condensed {
+    height: var(--rop-header-main-h-condensed,56px);
+    box-shadow: 0 1px 3px rgba(11,14,20,0.08);
+  }
+  [data-rop-header].rop-header--condensed .header__heading-logo,
+  [data-rop-header].rop-header--condensed .header__heading-link img {
+    height: 34px;
+  }
+}
+
+/* --- Two-column dropdown (Laptops, Desktops) — spec §3 Dropdown --- */
+[data-rop-header] .mega-menu__content,
+[data-rop-header] [data-rop-dropdown-panel] {
+  width: 480px;
+  background: var(--rop-color-paper,#FFFFFF);
+  border: 1px solid var(--rop-color-ink-200,#D6DBE2);
+  border-radius: var(--rop-radius-14,14px);
+  box-shadow: 0 8px 24px rgba(11,14,20,0.10);
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--rop-duration-base,200ms) var(--rop-ease-standard,cubic-bezier(0.2,0,0,1)),
+              transform var(--rop-duration-base,200ms) var(--rop-ease-standard,cubic-bezier(0.2,0,0,1));
+  pointer-events: none;
+}
+[data-rop-header] [data-rop-dropdown][data-rop-open] > [data-rop-dropdown-panel],
+[data-rop-header] .mega-menu__content[open],
+[data-rop-header] details[open] > .mega-menu__content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+[data-rop-header] .mega-menu__list {
+  display: block;
+  padding: 0; margin: 0;
+  list-style: none;
+}
+[data-rop-header] .mega-menu__list > li:first-child { /* Column heading style */
+  font-size: 12px; font-weight: 500;
+  text-transform: uppercase;
+  color: var(--rop-color-ink-500,#5A6474);
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+[data-rop-header] .mega-menu__link {
+  display: flex; align-items: center;
+  height: 38px; padding: 0 12px;
+  font-size: 15px;
+  color: var(--rop-color-ink-700,#252B36);
+  border-radius: var(--rop-radius-6,6px);
+  text-decoration: none;
+  transition: background-color var(--rop-duration-fast,120ms) ease;
+}
+[data-rop-header] .mega-menu__link:hover,
+[data-rop-header] .mega-menu__link:focus-visible {
+  background: var(--rop-color-ink-50,#F6F7F9);
+}
+[data-rop-header] .mega-menu__link:focus-visible {
+  outline: 2px solid var(--rop-color-focus,#2563EB);
+  outline-offset: 2px;
+}
+/* Spec §3 Dropdown "Images: None" — hide any promotional/image blocks. */
+[data-rop-header] .mega-menu__image,
+[data-rop-header] .mega-menu__promo,
+[data-rop-header] .mega-menu__content .card__inner {
+  display: none;
+}
+
+/* --- Mobile main-bar (spec §4) — height only; structure in header.liquid --- */
+@media (max-width: 989.98px) {
+  [data-rop-header].header {
+    height: 56px;
+    padding: 0 16px;
+    background: var(--rop-color-paper,#FFFFFF);
+    border-bottom: 1px solid var(--rop-color-ink-200,#D6DBE2);
+  }
+  [data-rop-header] .header__heading-logo,
+  [data-rop-header] .header__heading-link img { height: 34px; width: auto; }
+}
+
+/* --- Focus ring (all header controls) — spec §11 --- */
+[data-rop-header] a:focus-visible,
+[data-rop-header] button:focus-visible,
+[data-rop-header] summary:focus-visible {
+  outline: 2px solid var(--rop-color-focus,#2563EB);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* --- Utility Support link — spec §3 right zone --- */
+[data-rop-header] .rop-support-link {
+  font-size: 14px; font-weight: 400;
+  color: var(--rop-color-ink-500,#5A6474);
+  text-decoration: none;
+  transition: color var(--rop-duration-fast,120ms) ease;
+}
+[data-rop-header] .rop-support-link:hover { color: var(--rop-color-ink-900,#0B0E14); }
+
+/* --- Cart count bubble — spec §3 right zone --- */
+[data-rop-header] .cart-count-bubble {
+  width: 18px; height: 18px;
+  background: var(--rop-color-ink-900,#0B0E14);
+  color: var(--rop-color-paper,#FFFFFF);
+  font-family: ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 11px; font-weight: 500;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: absolute; top: -4px; right: -4px;
+}
+
+/* --- Icon sprite base --- */
+[data-rop-header] .rop-icon {
+  width: 24px; height: 24px;
+  color: var(--rop-color-ink-700,#252B36);
+  display: inline-block; vertical-align: middle;
+}
+[data-rop-header] .rop-icon--sm { width: 16px; height: 16px; }

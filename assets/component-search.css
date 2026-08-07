@@ -72,3 +72,83 @@ input::-webkit-search-decoration {
 .template-search__results {
   position: relative;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RentOPC Header & Navigation v2 — desktop search field & predictive
+   Source: Build Spec 01 §3 Band 2 right zone, §5 Search.
+   Scoped by [data-rop-header]. Uses --rop-* tokens from base.css.
+   ═══════════════════════════════════════════════════════════════════ */
+@media (min-width: 990px) {
+  [data-rop-header] .header__search {
+    width: 260px;
+    height: 38px;
+    transition: width var(--rop-duration-base,200ms) var(--rop-ease-standard,cubic-bezier(0.2,0,0,1));
+    position: relative;
+    margin-left: auto;
+  }
+  [data-rop-header] .header__search .search-modal__form,
+  [data-rop-header] .header__search input[type="search"],
+  [data-rop-header] .header__search .search__input {
+    width: 100%;
+    height: 38px;
+    background: var(--rop-color-ink-50,#F6F7F9);
+    border: 1px solid var(--rop-color-ink-300,#AEB6C2);
+    border-radius: var(--rop-radius-10,10px);
+    font-size: 15px;
+    padding-left: 40px;
+    padding-right: 12px;
+    color: var(--rop-color-ink-900,#0B0E14);
+    box-shadow: none;
+  }
+  [data-rop-header] .header__search:focus-within { width: 380px; }
+  [data-rop-header].rop-header--condensed .header__search { width: 220px; }
+  [data-rop-header] .header__search:focus-within input[type="search"],
+  [data-rop-header] .header__search:focus-within .search__input {
+    border-color: var(--rop-color-ink-900,#0B0E14);
+    background: var(--rop-color-paper,#FFFFFF);
+    outline: none;
+  }
+  [data-rop-header] .header__search input[type="search"]::placeholder {
+    color: var(--rop-color-ink-400,#838D9E);
+  }
+  [data-rop-header] .header__search .search__button,
+  [data-rop-header] .header__search .header__icon--search {
+    position: absolute; left: 12px; top: 50%;
+    transform: translateY(-50%);
+    width: 16px; height: 16px;
+    padding: 0; background: none; border: none;
+    color: var(--rop-color-ink-500,#5A6474);
+    pointer-events: none; z-index: 1;
+  }
+}
+/* Predictive results panel — spec §5. */
+[data-rop-header] .predictive-search {
+  border: 1px solid var(--rop-color-ink-200,#D6DBE2);
+  border-radius: var(--rop-radius-14,14px);
+  background: var(--rop-color-paper,#FFFFFF);
+  box-shadow: 0 8px 24px rgba(11,14,20,0.10);
+  margin-top: 8px;
+  padding: 8px 0;
+}
+[data-rop-header] .predictive-search__item {
+  min-height: 44px; padding: 8px 12px;
+  transition: background-color var(--rop-duration-fast,120ms) ease;
+}
+[data-rop-header] .predictive-search__item:hover { background: var(--rop-color-ink-50,#F6F7F9); }
+[data-rop-header] .predictive-search__item[data-search-type="product"] {
+  min-height: 64px; padding: 8px 12px; gap: 12px;
+}
+[data-rop-header] .predictive-search__item img,
+[data-rop-header] .predictive-search__item .predictive-search__image {
+  width: 48px; height: 48px; object-fit: cover;
+  border-radius: var(--rop-radius-6,6px);
+  background: var(--rop-color-ink-50,#F6F7F9);
+  flex-shrink: 0;
+}
+[data-rop-header] .predictive-search__item .price {
+  font-family: ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600; font-size: 14px;
+  color: var(--rop-color-ink-900,#0B0E14);
+  margin-left: auto;
+}
