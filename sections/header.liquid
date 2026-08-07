@@ -577,7 +577,13 @@
       <div class="mobile-search">
         {% render 'header-search', input_id: 'Search-In-Modal' %}
       </div>
-      <div class="desktop-search">
+      {%- comment -%}
+        RentOPC v2 (Phase 2b) — add Dawn's native `header__search` class so
+        scoped CSS `[data-rop-header] .header__search` in component-search.css
+        activates (width transition, focus expansion, condensed sticky width).
+        No behaviour change — this is a class add only.
+      {%- endcomment -%}
+      <div class="desktop-search header__search">
               {%- if settings.predictive_search_enabled -%}
           <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
         {%- else -%}
@@ -643,6 +649,7 @@
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
           class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
           rel="nofollow"
+          data-rop-analytics="account_click"
         >
           {%- if section.settings.enable_customer_avatar -%}
             <account-icon>
@@ -674,7 +681,7 @@
         {%- endcase -%}
       {%- endfor -%}
 
-      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble" data-rop-analytics="cart_click">
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
         {% else %}

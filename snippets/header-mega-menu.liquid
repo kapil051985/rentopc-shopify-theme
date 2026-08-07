@@ -11,10 +11,12 @@
       <li>
         {%- if link.links != blank -%}
           <header-menu>
-            <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
+            <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu" data-rop-dropdown>
               <summary
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset"
+                data-rop-dropdown-trigger
+                data-rop-analytics="nav_click"
               >
                 <span
                   {%- if link.child_active %}
@@ -29,6 +31,7 @@
                 id="MegaMenu-Content-{{ forloop.index }}"
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
                 tabindex="-1"
+                data-rop-dropdown-panel
               >
                 <ul
                   class="mega-menu__list page-width{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
@@ -75,6 +78,7 @@
             id="HeaderMenu-{{ link.handle }}"
             href="{{ link.url }}"
             class="header__menu-item list-menu__item link link--text focus-inset"
+            data-rop-analytics="nav_click"
             {% if link.current %}
               aria-current="page"
             {% endif %}
