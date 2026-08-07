@@ -10,7 +10,12 @@
       if product_title contains 'rental' or product_vendor contains 'rental' or product_handle contains 'rental' or product.tags contains 'rental'
         assign is_rental_product = true
       endif
-      unless is_rental_product
+      # RentOPC v2 (Phase 3) — sold-out exclusion. Spec §5.
+      assign is_soldout = false
+      unless product.available
+        assign is_soldout = true
+      endunless
+      unless is_rental_product or is_soldout
         assign visible_products_count = visible_products_count | plus: 1
       endunless
     endfor
@@ -61,7 +66,12 @@
                 -%}
                   {%- assign is_rental_product = true -%}
                 {%- endif -%}
-                {%- unless is_rental_product -%}
+                {%- comment -%} RentOPC v2 (Phase 3) — sold-out exclusion. Spec §5. {%- endcomment -%}
+                {%- assign is_soldout = false -%}
+                {%- unless product.available -%}
+                  {%- assign is_soldout = true -%}
+                {%- endunless -%}
+                {%- unless is_rental_product or is_soldout -%}
                   <li
                     id="predictive-search-option-product-{{ forloop.index }}"
                     class="predictive-search__list-item"
@@ -90,6 +100,17 @@
                           </div>
                         {%- endif -%}
                         <p class="predictive-search__item-heading h5">{{ product.title | escape }}</p>
+                        {%- comment -%}
+                          RentOPC v2 (Phase 3) — spec_line metafield row. Spec §5.
+                          Namespace: custom / key: spec_line (Text – Single line).
+                          Renders directly under the title; hidden if unset.
+                        {%- endcomment -%}
+                        {%- assign spec_line = product.metafields.custom.spec_line | default: '' -%}
+                        {%- if spec_line != blank -%}
+                          <span class="predictive-search__item-spec-line" data-rop-spec-line>
+                            {{ spec_line | escape }}
+                          </span>
+                        {%- endif -%}
                         {%- if settings.predictive_search_show_price -%}
                           {% render 'price', product: product, use_variant: true, show_badges: false %}
                         {%- endif -%}

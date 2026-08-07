@@ -1,0 +1,91 @@
+{%- comment -%}
+  RentOPC Header & Navigation v2 — Phase 3
+  Full-screen mobile search overlay (spec §4 mobile).
+
+  Additive: this snippet is rendered once inside sections/header.liquid.
+  It is hidden by default via CSS ([data-rop-mobile-search-overlay]:not([data-rop-open])).
+  Opened by tapping the mobile search icon in the header (data-rop-mobile-search-trigger).
+  Uses the native Dawn <predictive-search> custom element so no third-party dependency.
+
+  Preserves: identical predictive-search results container id ("predictive-search-results")
+  wiring so both existing Dawn CSS and predictive-search.js work unchanged.
+{%- endcomment -%}
+<div
+  class="rop-mobile-search-overlay"
+  data-rop-mobile-search-overlay
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="rop-mobile-search-title"
+  aria-hidden="true"
+  hidden
+>
+  <div class="rop-mobile-search-overlay__bar">
+    <button
+      type="button"
+      class="rop-mobile-search-overlay__close"
+      data-rop-mobile-search-close
+      aria-label="{{ 'accessibility.close' | t | default: 'Close' }}"
+    >
+      <svg class="rop-icon rop-icon--sm" aria-hidden="true" focusable="false">
+        <use href="#rop-icon-close"></use>
+      </svg>
+    </button>
+    <h2 id="rop-mobile-search-title" class="visually-hidden">
+      {{ 'general.search.search' | t }}
+    </h2>
+    {%- if settings.predictive_search_enabled -%}
+      <predictive-search class="rop-mobile-search-overlay__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+    {%- else -%}
+      <search-form class="rop-mobile-search-overlay__form">
+    {%- endif -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search rop-mobile-search-overlay__search-form">
+        <div class="field">
+          <input
+            class="search__input field__input"
+            id="Search-In-Mobile-Overlay"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'general.search.search' | t }}"
+            enterkeyhint="search"
+            {%- if settings.predictive_search_enabled -%}
+              role="combobox"
+              aria-expanded="false"
+              aria-owns="predictive-search-results"
+              aria-controls="predictive-search-results"
+              aria-haspopup="listbox"
+              aria-autocomplete="list"
+              autocorrect="off"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            {%- endif -%}
+          >
+          <label class="visually-hidden" for="Search-In-Mobile-Overlay">{{ 'general.search.search' | t }}</label>
+          <input type="hidden" name="options[prefix]" value="last">
+          <button
+            type="reset"
+            class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+            aria-label="{{ 'general.search.reset' | t }}"
+          >
+            <svg class="rop-icon rop-icon--sm" aria-hidden="true" focusable="false"><use href="#rop-icon-close"/></svg>
+          </button>
+          <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+            <svg class="rop-icon rop-icon--sm" aria-hidden="true" focusable="false"><use href="#rop-icon-search"/></svg>
+          </button>
+        </div>
+
+        {%- if settings.predictive_search_enabled -%}
+          <div class="predictive-search predictive-search--header rop-mobile-search-overlay__results" tabindex="-1" data-predictive-search>
+            {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+          </div>
+          <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+        {%- endif -%}
+      </form>
+    {%- if settings.predictive_search_enabled -%}
+      </predictive-search>
+    {%- else -%}
+      </search-form>
+    {%- endif -%}
+  </div>
+</div>

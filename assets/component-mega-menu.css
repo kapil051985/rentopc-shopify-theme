@@ -261,3 +261,198 @@
   display: inline-block; vertical-align: middle;
 }
 [data-rop-header] .rop-icon--sm { width: 16px; height: 16px; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RentOPC Header & Navigation v2 — Phase 3 (Mobile only)
+   Scope: everything below is either mobile-scoped (@media max-width:989.98px)
+   or shared with mobile-only trigger classes. Desktop behaviour untouched.
+   Sources: Build Spec 01 §4 Mobile, §5 Search.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* --- Mobile-only: sizing the header icon buttons in the 56px bar --- */
+@media (max-width: 989.98px) {
+  [data-rop-header] .header__icons { gap: 4px; }
+  [data-rop-header] .header__icon,
+  [data-rop-header] .header__icons > a,
+  [data-rop-header] .header__icons > button,
+  [data-rop-header] .header__icons > details { width: 44px; height: 44px; }
+  [data-rop-header] .rop-icon { width: 22px; height: 22px; }
+
+  /* Mobile search trigger button (icon-only) */
+  [data-rop-header] .rop-mobile-search-trigger {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: transparent; border: 0; padding: 0;
+    color: var(--rop-color-ink-900,#0B0E14); cursor: pointer;
+  }
+
+  /* Hide legacy inline mobile search bar (Phase 3 replaces it with an overlay).
+     The DOM node is preserved for backward compatibility; only visibility changes.
+     Removing `[data-rop-header]` from <header> restores the legacy bar. */
+  [data-rop-header] ~ .header-mobile-search,
+  [data-rop-header] + .header-mobile-search,
+  .shopify-section-header .header-mobile-search {
+    display: none !important;
+  }
+}
+
+/* Show the mobile search trigger only on mobile; hide on desktop */
+[data-rop-header] .rop-mobile-search-trigger { display: none; }
+@media (max-width: 989.98px) {
+  [data-rop-header] .rop-mobile-search-trigger { display: inline-flex; }
+}
+
+/* --- Mobile search overlay (spec §4 mobile + §5) --- */
+.rop-mobile-search-overlay {
+  position: fixed; inset: 0;
+  background: var(--rop-color-paper,#FFFFFF);
+  z-index: 10000;
+  display: none;
+  flex-direction: column;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.rop-mobile-search-overlay[hidden] { display: none; }
+.rop-mobile-search-overlay[data-rop-open] {
+  display: flex;
+}
+.rop-mobile-search-overlay__bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 12px;
+  min-height: 56px;
+  border-bottom: 1px solid var(--rop-color-ink-200,#D6DBE2);
+  background: var(--rop-color-paper,#FFFFFF);
+}
+.rop-mobile-search-overlay__close {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  background: transparent; border: 0; padding: 0;
+  color: var(--rop-color-ink-900,#0B0E14);
+  border-radius: var(--rop-radius-10,10px);
+  cursor: pointer;
+}
+.rop-mobile-search-overlay__close:hover,
+.rop-mobile-search-overlay__close:focus-visible {
+  background: var(--rop-color-ink-50,#F6F7F9);
+}
+.rop-mobile-search-overlay__close:focus-visible {
+  outline: 2px solid var(--rop-color-focus,#2563EB); outline-offset: 2px;
+}
+.rop-mobile-search-overlay__form,
+.rop-mobile-search-overlay__search-form {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex; flex-direction: column;
+  height: 100%;
+}
+.rop-mobile-search-overlay__form { display: contents; }
+.rop-mobile-search-overlay .field {
+  flex: 1 1 auto; position: relative;
+  display: flex; align-items: center;
+}
+.rop-mobile-search-overlay input[type="search"],
+.rop-mobile-search-overlay .search__input {
+  width: 100%; height: 40px;
+  background: var(--rop-color-ink-50,#F6F7F9);
+  border: 1px solid var(--rop-color-ink-300,#AEB6C2);
+  border-radius: var(--rop-radius-10,10px);
+  padding: 0 40px 0 16px;
+  font-size: 16px; /* iOS: 16px+ avoids zoom on focus */
+  color: var(--rop-color-ink-900,#0B0E14);
+}
+.rop-mobile-search-overlay input[type="search"]:focus,
+.rop-mobile-search-overlay .search__input:focus {
+  outline: none;
+  border-color: var(--rop-color-ink-900,#0B0E14);
+  background: var(--rop-color-paper,#FFFFFF);
+}
+.rop-mobile-search-overlay .field__label { display: none; }
+.rop-mobile-search-overlay .search__button,
+.rop-mobile-search-overlay .reset__button {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; padding: 0;
+  background: transparent; border: 0;
+  color: var(--rop-color-ink-500,#5A6474);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.rop-mobile-search-overlay .reset__button.hidden { display: none; }
+.rop-mobile-search-overlay__results,
+.rop-mobile-search-overlay .predictive-search {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 8px 12px 24px;
+  background: var(--rop-color-paper,#FFFFFF);
+  border: 0; border-radius: 0;
+  box-shadow: none;
+}
+
+/* --- Drawer extras (spec §4 mobile) --- */
+[data-rop-drawer-extras] {
+  border-top: 1px solid var(--rop-color-ink-200,#D6DBE2);
+  margin-top: auto; /* pins to bottom of drawer utility container */
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.rop-drawer-extras__link {
+  display: block; padding: 12px 0;
+  font-size: 15px; color: var(--rop-color-ink-700,#252B36);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rop-color-ink-100,#EBEEF2);
+}
+.rop-drawer-extras__link:hover,
+.rop-drawer-extras__link:focus-visible {
+  color: var(--rop-color-ink-900,#0B0E14);
+}
+.rop-drawer-extras__link:focus-visible {
+  outline: 2px solid var(--rop-color-focus,#2563EB); outline-offset: 2px; border-radius: 4px;
+}
+.rop-drawer-whatsapp {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--rop-radius-14,14px);
+  background: #25D366; /* WhatsApp brand green */
+  color: #FFFFFF !important;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(11,14,20,0.08);
+  transition: transform var(--rop-duration-fast,120ms) ease,
+              box-shadow var(--rop-duration-fast,120ms) ease;
+}
+.rop-drawer-whatsapp:hover,
+.rop-drawer-whatsapp:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37,211,102,0.28);
+}
+.rop-drawer-whatsapp:focus-visible {
+  outline: 2px solid var(--rop-color-focus,#2563EB); outline-offset: 2px;
+}
+.rop-drawer-whatsapp__icon {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+}
+.rop-drawer-whatsapp__icon .rop-icon {
+  color: #FFFFFF; width: 24px; height: 24px;
+}
+.rop-drawer-whatsapp__body {
+  display: flex; flex-direction: column; line-height: 1.25;
+}
+.rop-drawer-whatsapp__title {
+  font-size: 15px; font-weight: 600;
+}
+.rop-drawer-whatsapp__sub {
+  font-size: 12px; opacity: 0.9;
+}
+
+/* --- Predictive search: spec_line row --- */
+[data-rop-header] .predictive-search__item-spec-line,
+.rop-mobile-search-overlay .predictive-search__item-spec-line {
+  display: block;
+  font-size: 12px;
+  color: var(--rop-color-ink-500,#5A6474);
+  margin-top: 2px;
+  line-height: 1.3;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* --- Prevent scroll behind open overlay --- */
+html.rop-scroll-lock, body.rop-scroll-lock { overflow: hidden !important; }

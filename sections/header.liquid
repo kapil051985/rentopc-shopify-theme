@@ -681,6 +681,26 @@
         {%- endcase -%}
       {%- endfor -%}
 
+      {%- comment -%}
+        RentOPC v2 (Phase 3) — mobile search trigger.
+        Icon-only button visible only on mobile (see .rop-mobile-search-trigger
+        media query in component-mega-menu.css). Opens the full-screen overlay
+        rendered near the end of the header section. Legacy .header-mobile-search
+        inline bar remains in the DOM but is CSS-hidden while data-rop-header
+        is active, so removing that attribute restores the legacy UI.
+      {%- endcomment -%}
+      <button
+        type="button"
+        class="rop-mobile-search-trigger header__icon"
+        data-rop-mobile-search-trigger
+        data-rop-analytics="search_open_mobile"
+        aria-label="{{ 'general.search.search' | t }}"
+        aria-controls="rop-mobile-search-overlay"
+        aria-expanded="false"
+      >
+        <svg class="rop-icon" aria-hidden="true" focusable="false"><use href="#rop-icon-search"/></svg>
+      </button>
+
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble" data-rop-analytics="cart_click">
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
@@ -699,6 +719,13 @@
       </a>
     </div>
   </header>
+  {%- comment -%}
+    RentOPC v2 (Phase 3) — mobile search overlay is rendered inside the
+    section-header wrapper so it participates in section reloads and inherits
+    the header's stacking context. Uses inert `hidden` + [data-rop-open]
+    to show/hide; controlled by rop-header.js.
+  {%- endcomment -%}
+  {% render 'rop-mobile-search-overlay' %}
   {%- comment -%} Mobile-only: visible search bar under the header row {%- endcomment -%}
   <div class="header-mobile-search">
     {%- if settings.predictive_search_enabled -%}

@@ -1,0 +1,48 @@
+{%- comment -%}
+  RentOPC Header & Navigation v2 — Phase 3
+  Mobile drawer extras (spec §4 mobile).
+
+  Rendered inside snippets/header-drawer.liquid at the tail of
+  .menu-drawer__utility-links so it inherits Dawn's drawer scroll container
+  and closes with the drawer via native <details> behaviour.
+
+  Provides:
+    (a) Utility "Support" link (mirrors the desktop right-zone Support link)
+    (b) Bottom-pinned "Chat with an expert on WhatsApp" panel
+
+  Static markup only — no CMS setting dependencies (per spec: hard-coded like
+  the announcement bar). Preserves ALL existing drawer content above.
+{%- endcomment -%}
+
+<div class="rop-drawer-extras" data-rop-drawer-extras>
+  <a
+    href="/pages/support"
+    class="rop-drawer-extras__link"
+    data-rop-analytics="support_click_mobile"
+  >
+    <span class="rop-drawer-extras__label">Support</span>
+  </a>
+
+  {%- comment -%}
+    RentOPC WhatsApp deep-link — hard-coded per spec §4 (same policy as the
+    static announcement bar). This is the site's existing expert-chat handle
+    (currently referenced in header-group.json). If merchant changes the
+    handle, edit this single string.
+  {%- endcomment -%}
+  <a
+    href="https://wa.me/message/KFS7SMDFXRSVK1"
+    class="rop-drawer-whatsapp"
+    data-rop-drawer-whatsapp
+    data-rop-analytics="whatsapp_expert_click"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <span class="rop-drawer-whatsapp__icon" aria-hidden="true">
+      <svg class="rop-icon" aria-hidden="true" focusable="false"><use href="#rop-icon-whatsapp"/></svg>
+    </span>
+    <span class="rop-drawer-whatsapp__body">
+      <span class="rop-drawer-whatsapp__title">Chat with an expert</span>
+      <span class="rop-drawer-whatsapp__sub">Get personalised laptop rental help</span>
+    </span>
+  </a>
+</div>

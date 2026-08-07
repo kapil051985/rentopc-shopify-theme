@@ -287,6 +287,13 @@
                 </li>
               {%- endif -%}
             </ul>
+            {%- comment -%}
+              RentOPC v2 (Phase 3) — drawer extras: Support link + pinned
+              WhatsApp expert block. Rendered at the tail of the drawer
+              utility container so it appears below social links. Removing
+              this single line reverts the drawer to Dawn default.
+            {%- endcomment -%}
+            {% render 'rop-mobile-drawer-extras' %}
           </div>
         </div>
       </div>
