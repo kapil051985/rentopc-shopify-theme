@@ -65,13 +65,21 @@
     groups.forEach(function (group) {
       var openTimer = null;
       var closeTimer = null;
+      var isDetails = group.tagName && group.tagName.toLowerCase() === 'details';
+      var trigger = group.querySelector('[data-rop-dropdown-trigger]');
 
       function open() {
         clearTimeout(closeTimer);
         group.setAttribute('data-rop-open', 'true');
+        // Reflect state on <details> so browsers derive aria-expanded on <summary>
+        // and CSS `details[open] > .mega-menu__content` matches.
+        if (isDetails && !group.hasAttribute('open')) group.setAttribute('open', '');
+        if (trigger) trigger.setAttribute('aria-expanded', 'true');
       }
       function close() {
         group.removeAttribute('data-rop-open');
+        if (isDetails && group.hasAttribute('open')) group.removeAttribute('open');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
       }
 
       group.addEventListener('mouseenter', function () {
@@ -102,6 +110,11 @@
       groups.forEach(function (group) {
         if (group.hasAttribute('data-rop-open') && !group.contains(e.target)) {
           group.removeAttribute('data-rop-open');
+          if (group.tagName && group.tagName.toLowerCase() === 'details' && group.hasAttribute('open')) {
+            group.removeAttribute('open');
+          }
+          var trig = group.querySelector('[data-rop-dropdown-trigger]');
+          if (trig) trig.setAttribute('aria-expanded', 'false');
         }
       });
     });

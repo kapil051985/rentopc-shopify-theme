@@ -17,6 +17,8 @@
                 class="header__menu-item list-menu__item link focus-inset"
                 data-rop-dropdown-trigger
                 data-rop-analytics="nav_click"
+                aria-controls="HeaderMenu-MenuList-{{ forloop.index }}"
+                aria-expanded="false"
               >
                 <span
                   {%- if link.child_active %}
