@@ -70,16 +70,28 @@
 
       function open() {
         clearTimeout(closeTimer);
+        var wasOpen = group.hasAttribute('data-rop-open');
         group.setAttribute('data-rop-open', 'true');
         // Reflect state on <details> so browsers derive aria-expanded on <summary>
         // and CSS `details[open] > .mega-menu__content` matches.
         if (isDetails && !group.hasAttribute('open')) group.setAttribute('open', '');
         if (trigger) trigger.setAttribute('aria-expanded', 'true');
+        if (!wasOpen) {
+          emit('menu_open', {
+            label: trigger ? (trigger.textContent || '').trim().slice(0, 60) : null
+          });
+        }
       }
       function close() {
+        var wasOpen = group.hasAttribute('data-rop-open');
         group.removeAttribute('data-rop-open');
         if (isDetails && group.hasAttribute('open')) group.removeAttribute('open');
         if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        if (wasOpen) {
+          emit('menu_close', {
+            label: trigger ? (trigger.textContent || '').trim().slice(0, 60) : null
+          });
+        }
       }
 
       group.addEventListener('mouseenter', function () {
@@ -144,6 +156,69 @@
     initAnalytics();
     initMobileSearchOverlay();
     initPredictiveRerank();
+    initSearchAnalytics();
+    initDisableCartAutoOpen();
+  }
+
+  /* ---------- 6. Search analytics (spec §11) ---------- */
+  function initSearchAnalytics() {
+    // (a) Search form submissions — fires on ANY header search form.
+    document.addEventListener('submit', function (e) {
+      var form = e.target;
+      if (!form || form.tagName !== 'FORM') return;
+      var input = form.querySelector('input[type="search"][name="q"]');
+      if (!input) return;
+      // Must be inside our header scope (desktop, mobile inline, or overlay).
+      if (!form.closest('[data-rop-header]') && !form.closest('[data-rop-mobile-search-overlay]')) return;
+      emit('search_query', { q: (input.value || '').trim().slice(0, 120) });
+    }, true);
+
+    // (b) Result item click — delegated on predictive-search containers.
+    document.addEventListener('click', function (e) {
+      var item = e.target.closest && e.target.closest('.predictive-search__item');
+      if (!item) return;
+      if (!item.closest('predictive-search') && !item.closest('[data-predictive-search]')) return;
+      var heading = item.querySelector('.predictive-search__item-heading');
+      var container = item.closest('[data-predictive-search]');
+      var host = container && container.closest('predictive-search');
+      var inp = host && host.querySelector('input[type="search"]');
+      emit('search_result_click', {
+        q: inp && inp.value ? inp.value.trim().slice(0, 120) : null,
+        label: heading ? heading.textContent.trim().slice(0, 120) : null,
+        href: item.getAttribute('href') || null
+      });
+    });
+  }
+
+  /* ---------- 7. Disable cart-drawer auto-open on ATC (spec §11) ---------- */
+  function initDisableCartAutoOpen() {
+    // Wait for <cart-drawer> to upgrade if not yet defined.
+    function attach(el) {
+      if (!el || typeof el.open !== 'function' || el.__ropAutoOpenSuppressed) return;
+      var originalOpen = el.open.bind(el);
+      el.open = function (triggeredBy) {
+        // User-initiated (cart icon click) always passes a triggering element.
+        // Auto-open path in cart-drawer.js#renderContents() calls open() with no args.
+        // We suppress only the auto path; explicit calls still work.
+        if (triggeredBy) return originalOpen(triggeredBy);
+        // Emit ATC success event so downstream analytics still see the update.
+        emit('atc_success', { source: 'cart_drawer_intercept', ts: Date.now() });
+      };
+      el.__ropAutoOpenSuppressed = true;
+    }
+
+    var existing = document.querySelector('cart-drawer');
+    if (existing) attach(existing);
+
+    // If cart-drawer is not yet upgraded (script order), poll briefly.
+    if (!existing) {
+      var tries = 0;
+      var iv = setInterval(function () {
+        var el = document.querySelector('cart-drawer');
+        if (el) { attach(el); clearInterval(iv); }
+        if (++tries > 20) clearInterval(iv); // give up after ~2s
+      }, 100);
+    }
   }
 
   /* ---------- 4. Mobile search overlay (spec §4 mobile, §5) ---------- */

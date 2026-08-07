@@ -709,7 +709,14 @@
         {% endif %}
         <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
         {%- if cart != empty -%}
-          <div class="cart-count-bubble">
+          {%- comment -%}
+            RentOPC v2 (Phase 4) — cart bubble as a polite live region.
+            When cart contents change, .cart-count-bubble is re-rendered by
+            cart-drawer.js. aria-live="polite" + aria-atomic="true" causes
+            assistive tech to announce the new item count via the
+            .visually-hidden localized text below. Spec §11.
+          {%- endcomment -%}
+          <div class="cart-count-bubble" aria-live="polite" aria-atomic="true">
             {%- if cart.item_count < 100 -%}
               <span aria-hidden="true">{{ cart.item_count }}</span>
             {%- endif -%}
