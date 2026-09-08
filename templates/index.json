@@ -258,7 +258,7 @@
       "name": "amazon top picks",
       "settings": {
         "items_mt": 0,
-        "collection": "amazon-top-picks",
+        "collection": "monthly-deals-pick",
         "product_list": [],
         "stack_products": false,
         "show_bar": true,
@@ -297,7 +297,7 @@
         "sub_heading_align": "center",
         "invert_content": false,
         "link": "View all",
-        "link_url": "shopify://collections/amazon-top-picks",
+        "link_url": "shopify://collections/monthly-deals-pick",
         "link_custom": false,
         "link_font": "roboto_n4",
         "link_size": 18,
