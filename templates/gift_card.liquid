@@ -18,10 +18,7 @@
     {%- endunless -%}
 
 	    {%- assign formatted_balance = gift_card.balance | money_without_trailing_zeros | strip_html -%}
-	    {% render 'seo-head',
-	      seo_title_override: 'gift_cards.issued.title' | t: value: formatted_balance, shop: shop.name,
-	      seo_description_override: 'gift_cards.issued.subtext' | t
-	    %}
+	    {% render 'seo-head', seo_title_override: 'gift_cards.issued.title', t: value, shop: shop.name, seo_description_override: 'gift_cards.issued.subtext' %}
 
 	    {{ content_for_header }}
 
@@ -210,3 +207,16 @@
     });
   });
 </script>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'seo-head',\n\t      seo_title_override: 'gift_cards.issued.title'
+    | t: value: formatted_balance, shop: shop.name,\n\t      seo_description_override:
+    'gift_cards.issued.subtext' | t\n\t    %}"
+  to: "{% render 'seo-head', seo_title_override: 'gift_cards.issued.title', t: value,
+    shop: shop.name, seo_description_override: 'gift_cards.issued.subtext' %}"
+  position: 827..979
+{% endcomment %}

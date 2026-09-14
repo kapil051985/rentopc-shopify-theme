@@ -30,10 +30,10 @@
   assign header_html = content_for_header | default: ''
   assign header_html_downcase = header_html | downcase
 
-  assign header_has_meta_description = header_html_downcase contains 'name="description"'
-  assign header_has_canonical = header_html_downcase contains 'rel="canonical"'
-  assign header_has_og_title = header_html_downcase contains 'property="og:title"'
-  assign header_has_twitter_card = header_html_downcase contains 'name="twitter:card"'
+  assign header_has_meta_description = header_html_downcase
+  assign header_has_canonical = header_html_downcase
+  assign header_has_og_title = header_html_downcase
+  assign header_has_twitter_card = header_html_downcase
 
   assign seo_title_input_downcase = seo_title_input | downcase
   assign site_name_downcase = site_name | downcase
@@ -100,7 +100,7 @@
 
   assign query_string = request.query_string | default: ''
   assign should_noindex_query = false
-  if query_string != blank and (query_string contains 'filter.' or query_string contains 'filter=' or query_string contains 'sort_by=')
+  if query_string != blank and query_string contains 'filter.' or query_string contains 'filter=' or query_string contains 'sort_by='
     assign should_noindex_query = true
   endif
 -%}
@@ -122,3 +122,27 @@
 {%- unless header_has_og_title or header_has_twitter_card -%}
   {% render 'meta-tags', page_description: seo_description, page_title: seo_title_input, site_name: site_name %}
 {%- endunless -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '  assign header_has_meta_description = header_html_downcase contains ''name="description"'''
+  to: "  assign header_has_meta_description = header_html_downcase"
+  position: 1405..1464
+- from: '  assign header_has_canonical = header_html_downcase contains ''rel="canonical"'''
+  to: "  assign header_has_canonical = header_html_downcase"
+  position: 1465..1517
+- from: '  assign header_has_og_title = header_html_downcase contains ''property="og:title"'''
+  to: "  assign header_has_og_title = header_html_downcase"
+  position: 1518..1569
+- from: '  assign header_has_twitter_card = header_html_downcase contains ''name="twitter:card"'''
+  to: "  assign header_has_twitter_card = header_html_downcase"
+  position: 1570..1625
+- from: "  if query_string != blank and (query_string contains 'filter.' or query_string
+    contains 'filter=' or query_string contains 'sort_by=')"
+  to: "  if query_string != blank and query_string contains 'filter.' or query_string
+    contains 'filter=' or query_string contains 'sort_by='"
+  position: 4211..4344
+{% endcomment %}

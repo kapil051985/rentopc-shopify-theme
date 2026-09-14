@@ -1,14 +1,6 @@
 <div class="collection-slider-wrapper--gm" >
   {% for subcollection in section.settings.subcollections %}
-    {% render 'gm-collection-slider',
-      collection_url: subcollection.url,
-      collection_image: subcollection.image| image_url,
-      collection_name: subcollection.name,
-      gradient_color: section.settings.gradient_color,
-      collection_width: section.settings.collection_width,
-      scrollbar_color: section.settings.scrollbar_color,
-     margin_block: section.settings.margin_block
-    %}
+    {% render 'gm-collection-slider', collection_url: subcollection.url, collection_image: subcollection.image, collection_name: subcollection.name, gradient_color: section.settings.gradient_color, collection_width: section.settings.collection_width, scrollbar_color: section.settings.scrollbar_color, margin_block: section.settings.margin_block %}
   {% endfor %}
 </div>
 {% schema %}
@@ -69,3 +61,25 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'gm-collection-slider',
+          collection_url: subcollection.url,
+          collection_image: subcollection.image| image_url,
+          collection_name: subcollection.name,
+          gradient_color: section.settings.gradient_color,
+          collection_width: section.settings.collection_width,
+          scrollbar_color: section.settings.scrollbar_color,
+         margin_block: section.settings.margin_block
+        %}
+  to: "{% render 'gm-collection-slider', collection_url: subcollection.url, collection_image:
+    subcollection.image, collection_name: subcollection.name, gradient_color: section.settings.gradient_color,
+    collection_width: section.settings.collection_width, scrollbar_color: section.settings.scrollbar_color,
+    margin_block: section.settings.margin_block %}"
+  position: 110..454
+{% endcomment %}

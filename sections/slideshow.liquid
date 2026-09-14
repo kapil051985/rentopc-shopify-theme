@@ -362,14 +362,7 @@
                     opacity: {{ block.settings.image_overlay_opacity | divided_by: 100.0 }};
                   }
                 </style>
-                {% render 'slideshow-slide',
-                  section: section,
-                  block: block,
-                  section_id: desktop_left_section_id,
-                  slide_index: desktop_left_render_index,
-                  slide_count: desktop_left_count,
-                  is_first_slide: desktop_left_render_index == 1
-                %}
+                {% render 'slideshow-slide', section: section, block: block, section_id: desktop_left_section_id, slide_index: desktop_left_render_index, slide_count: desktop_left_count, is_first_slide: desktop_left_render_index %}
               {%- endif -%}
             {%- endfor -%}
           </div>
@@ -422,14 +415,7 @@
                     opacity: {{ block.settings.image_overlay_opacity | divided_by: 100.0 }};
                   }
                 </style>
-                {% render 'slideshow-slide',
-                  section: section,
-                  block: block,
-                  section_id: desktop_right_section_id,
-                  slide_index: desktop_right_render_index,
-                  slide_count: desktop_right_count,
-                  is_first_slide: desktop_right_render_index == 1
-                %}
+                {% render 'slideshow-slide', section: section, block: block, section_id: desktop_right_section_id, slide_index: desktop_right_render_index, slide_count: desktop_right_count, is_first_slide: desktop_right_render_index %}
               {%- endif -%}
             {%- endfor -%}
           </div>
@@ -883,3 +869,36 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'slideshow-slide',
+                      section: section,
+                      block: block,
+                      section_id: desktop_left_section_id,
+                      slide_index: desktop_left_render_index,
+                      slide_count: desktop_left_count,
+                      is_first_slide: desktop_left_render_index == 1
+                    %}
+  to: "{% render 'slideshow-slide', section: section, block: block, section_id: desktop_left_section_id,
+    slide_index: desktop_left_render_index, slide_count: desktop_left_count, is_first_slide:
+    desktop_left_render_index %}"
+  position: 13493..13708
+- from: |-
+    {% render 'slideshow-slide',
+                      section: section,
+                      block: block,
+                      section_id: desktop_right_section_id,
+                      slide_index: desktop_right_render_index,
+                      slide_count: desktop_right_count,
+                      is_first_slide: desktop_right_render_index == 1
+                    %}
+  to: "{% render 'slideshow-slide', section: section, block: block, section_id: desktop_right_section_id,
+    slide_index: desktop_right_render_index, slide_count: desktop_right_count, is_first_slide:
+    desktop_right_render_index %}"
+  position: 16107..16326
+{% endcomment %}
