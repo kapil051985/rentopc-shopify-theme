@@ -1,0 +1,10 @@
+{
+  "name": "rentopc-shopify-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "scripts": {"build": "tsc -p tsconfig.json", "test": "node --test dist/tests/*.test.js", "selftest": "node dist/selftest.js"},
+  "dependencies": {"@modelcontextprotocol/sdk": "^1.17.0", "zod": "^3.25.76"},
+  "devDependencies": {"@types/node": "^22.0.0", "typescript": "^5.9.0"}
+}
