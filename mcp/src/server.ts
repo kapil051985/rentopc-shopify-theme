@@ -1,0 +1,29 @@
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+
+const STORE="kvkvw7-dg.myshopify.com";
+const API_VERSION=process.env.SHOPIFY_API_VERSION||"2026-07";
+if((process.env.SHOPIFY_STORE_DOMAIN||STORE)!==STORE) throw new Error("Store guard rejected");
+type Provider={get():Promise<string>;invalidate():void;canRefresh:boolean;mode:string};
+class Static implements Provider{canRefresh=false;mode="token";constructor(private t:string){}async get(){return this.t}invalidate(){}}
+class ClientCreds implements Provider{
+ canRefresh=true;mode="client_credentials";private token?:string;private exp=0;private pending?:Promise<string>;
+ constructor(private id:string,private secret:string){}
+ invalidate(){this.token=undefined;this.exp=0}
+ async get(){if(this.token&&Date.now()<this.exp-300000)return this.token;if(this.pending)return this.pending;this.pending=this.exchange().finally(()=>this.pending=undefined);return this.pending}
+ private async exchange(){const r=await fetch(`https://${STORE}/admin/oauth/access_token`,{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded"},body:new URLSearchParams({grant_type:"client_credentials",client_id:this.id,client_secret:this.secret})});if(!r.ok)throw new Error(`Shopify OAuth failed: HTTP ${r.status}`);const j=await r.json() as any;if(!j.access_token)throw new Error("OAuth response missing access_token");this.token=j.access_token;this.exp=Date.now()+(j.expires_in||86400)*1000;return this.token}
+}
+const provider:Provider=process.env.SHOPIFY_CLIENT_ID&&process.env.SHOPIFY_CLIENT_SECRET?new ClientCreds(process.env.SHOPIFY_CLIENT_ID,process.env.SHOPIFY_CLIENT_SECRET):process.env.SHOPIFY_ACCESS_TOKEN?new Static(process.env.SHOPIFY_ACCESS_TOKEN):(()=>{throw new Error("Missing Shopify credentials")})();
+async function gql(query:string,variables:Record<string,unknown>={}){for(let i=0;i<2;i++){const token=await provider.get();const r=await fetch(`https://${STORE}/admin/api/${API_VERSION}/graphql.json`,{method:"POST",headers:{"content-type":"application/json","x-shopify-access-token":token},body:JSON.stringify({query,variables})});if((r.status===401||r.status===403)&&i===0&&provider.canRefresh){provider.invalidate();continue}const body=await r.text();if(!r.ok)throw new Error(`Shopify API HTTP ${r.status}: ${body.slice(0,500)}`);const j=JSON.parse(body);if(j.errors)throw new Error(`Shopify GraphQL: ${JSON.stringify(j.errors).slice(0,2000)}`);return j.data}throw new Error("Shopify authentication failed after refresh")}
+const server=new McpServer({name:"rentopc-shopify-mcp",version:"1.0.0"});
+function tool(name:string,description:string,handler:(a:any)=>Promise<unknown>){server.tool(name,description,{input:z.record(z.any()).optional()},async({input})=>{try{return{content:[{type:"text",text:JSON.stringify(await handler(input||{}),null,2)}]}}catch(e){return{isError:true,content:[{type:"text",text:e instanceof Error?e.message:String(e)}]}}})}
+const names=["get_auth_status","verify_shopify_scopes","shopify_graphql_query","list_products","get_product","search_products","list_collections","get_collection","list_inventory_items","get_shop","list_themes","list_pages","list_redirects","list_menus","list_metaobjects","update_product","update_variant_price","set_inventory_quantity","create_redirect","delete_redirect","delete_media","publish_theme","list_variants","get_variant","update_variant","update_product_seo","get_product_seo","update_metafield","get_metafields","delete_metafield","list_files","get_file","delete_file","upload_file","list_pages_full","create_page","update_page","delete_page","get_page","search_redirects","update_redirect","list_navigation","get_navigation","create_navigation","update_navigation","delete_navigation","get_metaobject","create_metaobject","update_metaobject","delete_metaobject","list_publications","publish_product","unpublish_product","get_publication_status","get_theme","get_theme_files","read_theme_file","write_theme_file","delete_theme_file","duplicate_theme","create_theme","update_theme_settings","get_theme_assets","get_product_media","add_product_media","delete_product_video","delete_product_image","update_product_image_alt","create_collection","update_collection","delete_collection","add_products_to_collection","remove_products_from_collection"];
+tool("get_auth_status","Show auth mode without credentials",async()=>({store:STORE,apiVersion:API_VERSION,authMode:provider.mode,canRefresh:provider.canRefresh}));
+tool("verify_shopify_scopes","Read Shopify scopes",async()=>gql("query{app{installation{accessScopes{handle}}}}"));
+tool("shopify_graphql_query","Read-only GraphQL query",async(a)=>{if(!/^\\s*query\\b/i.test(a.query||""))throw new Error("Only query operations are allowed");return gql(a.query,a.variables||{})});
+tool("list_products","List products",async(a)=>gql("query($first:Int!){products(first:$first){nodes{id title handle status productType vendor totalInventory}}}",{first:a.first||50}));
+tool("get_product","Get a product",async(a)=>gql("query($id:ID!){product(id:$id){id title handle status productType vendor descriptionHtml totalInventory}}",{id:a.id}));
+tool("update_product","Update a product; dryRun must be false",async(a)=>{if(a.dryRun!==false)throw new Error("Write blocked: set dryRun=false");return gql("mutation($input:ProductInput!){productUpdate(input:$input){product{id title handle}userErrors{field message}}}",{input:{id:a.id,title:a.title,descriptionHtml:a.descriptionHtml,productType:a.productType,vendor:a.vendor}})});
+for(const n of names.slice(5))if(!["update_product"].includes(n))tool(n,`RentOPC Shopify MCP tool: ${n}`,async()=>({tool:n,status:"scaffolded",warning:"This tool name is reserved but its operation-specific handler is not yet enabled for live writes."}));
+await server.connect(new StdioServerTransport());
