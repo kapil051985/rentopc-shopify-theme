@@ -1,1 +1,0 @@
-import test from "node:test";import assert from "node:assert/strict";test("73-tool catalog",()=>assert.equal(73,73));test("store lock",()=>assert.equal("kvkvw7-dg.myshopify.com","kvkvw7-dg.myshopify.com"));
